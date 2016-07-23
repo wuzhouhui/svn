@@ -1,0 +1,43 @@
+\documentclass[nofonts, oneside]{ctexbook}
+
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{makeidx}
+
+\makeindex
+\setCJKmainfont{AR PL UMing CN}
+\setCJKsansfont{AR PL UMing CN}
+\setCJKmonofont[Scale=0.9]{AR PL UMing CN}
+\setmainfont{FreeSerif}
+\setsansfont{FreeSans}
+% "Mapping={}" make quote symbol straight
+\setmonofont[Mapping={}]{FreeMono}
+
+\title{SVN 教程}
+\author{\url{www.tutorialspoint.com} \and
+	\url{https://github.com/wuzhouhui/hacking_vim} }
+
+\begin{document}
+
+\maketitle
+
+\chapter{基本概念}
+\label{chap:basic_concepts}
+
+\section{什么是版本控制系统}
+\label{sec:what_is_version_control_system}
+
+版本控制系统 (Version Control System\index{Version Control System (版本控制
+系统)} 简称 VCS) 是一种软件, 它可以帮助软件开发人员协同工作, 以及管理产品的
+完整历史.
+
+版本控制系统的目标包括:
+\begin{itemize}
+  \item 支持多人同时操作.
+  \item 不覆盖其他人作出的修改.
+  \item 维护每一个版本的历史.
+\end{itemize}
+
+\printindex
+
+\end{document}
