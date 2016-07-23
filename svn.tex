@@ -38,6 +38,33 @@
   \item 维护每一个版本的历史.
 \end{itemize}
 
+VCS 可以分成两大类别:
+\begin{itemize}
+  \item 集中式的版本控制系统 (Centralized Version Control System\index{
+   Centralized Control System (集中式的版本控制系统)}, 简称 CVCS);
+  \item 分布式的版本控制系统 (Distributed Version Control System\index{
+   Distributed Version Control System (分布式的版本控制系统)}, 简称 DVCS).
+\end{itemize}
+
+本教程只讨论 CVCS, 特别是 Subversion\index{Subversion}. Subversion 属于 CVCS,
+因此它使用中央服务器来存储所有的文件, 并支持团队协作.
+
+\section{版本控制术语}
+\label{sec:version_control_terminologies}
+
+首先先来介绍本教程将会用到的几个术语.
+
+\begin{itemize}
+  \item 仓库 (Repository\index{repository (仓库)}): 仓库是所有版本控制系统的
+      核心, 它是开发人员存放所有资料的中心位置. 除了文件, 仓库还会存放历史.
+      仓库支持网络访问, 相当于一个服务器, 而版本控制工具则是客户端. 客户端可
+      以连接仓库, 然后就可以向仓库提交修改, 或检索修改历史. 通过提交, 其他客
+      户端就可以看到某个客户端作出的修改; 通过检查修改历史, 客户端就可以把其
+      他人的修改作为工作副本 (working copy).
+
+  \item 主干 (Trunk\index{trunk (主干)}):
+\end{itemize}
+
 \printindex
 
 \end{document}
