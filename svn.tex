@@ -121,8 +121,9 @@ Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源�
 -bash: svn: command not found
 \end{svnshell}
 
-如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令 \shellcmd{yum} 来安装
-Subversion, 安装安装后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
+如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令 \shellcmd{yum}\index{yum}
+来安装
+Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
@@ -133,7 +134,7 @@ svn, version 1.6.11 (r934486)
 compiled Jun 23 2012, 00:44:03
 \end{svnshell}
 
-如果是 Debian 系列的 GNU/Linux 发行版, 就用命令 \shellcmd{apt} 安装:
+如果是 Debian 系列的 GNU/Linux 发行版, 就用命令 \shellcmd{apt}\index{apt} 安装:
 \begin{svnshell}
 [jerry@Ubuntu]$ sudo apt-get update
 [sudo] password for jerry:
@@ -151,7 +152,7 @@ compiled Jun 21 2013, 22:11:49
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
 一个新的仓库, 并设置访问权限.
 
-在服务器, 我们需要安装
+在服务器端, 我们需要安装
 
 \printindex
 
