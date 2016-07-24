@@ -3,6 +3,19 @@
 \usepackage{xeCJK}
 \usepackage{hyperref}
 \usepackage{makeidx}
+\usepackage{listings}
+
+\newcommand\shellcmd[1]{\texttt{#1}}
+
+\lstnewenvironment{svnshell}
+  {
+    \lstset{basicstyle = \ttfamily,
+        tabsize = 4,
+        xleftmargin = 2em,
+        frame = single,
+    }
+  }
+  {}
 
 \makeindex
 \setCJKmainfont{AR PL UMing CN}
@@ -88,6 +101,57 @@ VCS 可以分成两大类别:
       提交是一个原子操作, 要么全部的修改提交成功, 要么全部失败, 不可能出现只
       提交一半的情况.
 \end{itemize}
+
+\chapter{环境设置}
+\label{chap:environment_setup}
+
+\section{安装 SVN}
+\label{sec:svn_installation}
+
+Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源软件, 可以在
+因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
+的命令检查:
+\begin{svnshell}
+[jerry@CentOS ~]$ svn --version
+\end{svnshell}
+如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
+的话, 就会输出一条错误信息:
+\begin{svnshell}
+[jerry@CentOS ~]$ svn --version
+-bash: svn: command not found
+\end{svnshell}
+
+如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令 \shellcmd{yum} 来安装
+Subversion, 安装安装后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
+\begin{svnshell}
+[jerry@CentOS ~]$ su -
+Password:
+[jerry@CentOS ~]# yum install subversion
+
+[jerry@CentOS ~]$ svn --version
+svn, version 1.6.11 (r934486)
+compiled Jun 23 2012, 00:44:03
+\end{svnshell}
+
+如果是 Debian 系列的 GNU/Linux 发行版, 就用命令 \shellcmd{apt} 安装:
+\begin{svnshell}
+[jerry@Ubuntu]$ sudo apt-get update
+[sudo] password for jerry:
+
+[jerry@Ubuntu]$ sudo apt-get install subversion
+
+[jerry@Ubuntu]$ svn --version
+svn, version 1.7.5 (r1336830)
+compiled Jun 21 2013, 22:11:49
+\end{svnshell}
+
+\section{Apache 设置}
+\label{sec:apache_setup}
+
+上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
+一个新的仓库, 并设置访问权限.
+
+在服务器, 我们需要安装
 
 \printindex
 
