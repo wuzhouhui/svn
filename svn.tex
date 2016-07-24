@@ -13,6 +13,7 @@
         tabsize = 4,
         xleftmargin = 2em,
         frame = single,
+        escapechar = &,
     }
   }
   {}
@@ -112,12 +113,12 @@ Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源�
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version
+[jerry@CentOS ~]$ svn --version&\index{svn!--version}&
 \end{svnshell}
 如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
 的话, 就会输出一条错误信息:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version
+[jerry@CentOS ~]$ svn --version&\index{svn!--version}&
 -bash: svn: command not found
 \end{svnshell}
 
@@ -127,21 +128,21 @@ Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安�
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
-[jerry@CentOS ~]# yum install subversion
+[jerry@CentOS ~]# yum install subversion&\index{yum!install}&
 
-[jerry@CentOS ~]$ svn --version
+[jerry@CentOS ~]$ svn --version&\index{svn!--version}&
 svn, version 1.6.11 (r934486)
 compiled Jun 23 2012, 00:44:03
 \end{svnshell}
 
 如果是 Debian 系列的 GNU/Linux 发行版, 就用命令 \shellcmd{apt}\index{apt} 安装:
 \begin{svnshell}
-[jerry@Ubuntu]$ sudo apt-get update
+    [jerry@Ubuntu]$ sudo apt-get update&\index{apt!update}&
 [sudo] password for jerry:
 
-[jerry@Ubuntu]$ sudo apt-get install subversion
+[jerry@Ubuntu]$ sudo apt-get install subversion&\index{apt!install}&
 
-[jerry@Ubuntu]$ svn --version
+[jerry@Ubuntu]$ svn --version&\index{svn!--version}&
 svn, version 1.7.5 (r1336830)
 compiled Jun 21 2013, 22:11:49
 \end{svnshell}
