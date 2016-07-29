@@ -153,7 +153,39 @@ compiled Jun 21 2013, 22:11:49
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
 一个新的仓库, 并设置访问权限.
 
-在服务器端, 我们需要安装
+在服务器端, 我们需要安装 Apache \shellcmd{httpd}\index{httpd} 模块和
+\shellcmd{svnadmin}\index{svnadmin} 工具:
+\begin{svnshell}
+[jerry@CentOS ~]$ su -
+Password:
+[root@CentOS ~]# yum install&\index{yum!install}& mod_dav_svn subversion
+\end{svnshell}
+安装了软件包 \texttt{mod\_dav\_svn}\index{\texttt{mod\_dav\_svn}} 之后, 用户就
+可以用 HTTP 来访问仓库, 软件包
+\texttt{subversion}\index{subversion} 包含了
+\shellcmd{svnadmin}\index{svnadmin} 工具.
+
+\texttt{/etc/httpd/conf.d/subversion.conf}\index{subversion.conf} 是 Subversion
+的配置文件, 该文件的典型内容如下:
+\begin{svnshell}
+LoadModule dav_svn_module   modules/mod_dav_svn.so
+LoadModule authz_svn_module modules/mod_authz_svn.so
+
+<Location /svn>
+    DAV svn
+    SVNParentPath /var/www/svn
+    AuthType Basic
+    AuthName "Authorization Realm"
+    AuthUserFile /etc/svn-users
+    Require valid-user
+</Location>
+\end{svnshell}
+
+现在我们开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
+\shellcmd{htpasswd}\index{htpasswd} 用于创建和更新纯文本文件, 这些文件中存放
+着用户名和密码. 如果指定了选项 \shellcmd{-c}, 则命令会创建一个密码文件, 如果
+密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
+\shellcmd{-m} 开启密码的 MD5 加密.
 
 \printindex
 
