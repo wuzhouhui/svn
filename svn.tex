@@ -187,6 +187,47 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
 \shellcmd{-m} 开启密码的 MD5 加密.
 
+假设现在我们要创建用户 \texttt{tom}:
+\begin{svnshell}
+[root@CentOS ~]# htpasswd&\index{\shellcmd{htpasswd}}& -cm /etc/svn-users tom
+New password:
+Re-type new password:
+Adding password for user tom
+\end{svnshell}
+
+再创建一个用户 \texttt{jerry}:
+\begin{svnshell}
+[root@CentOS ~]# htpasswd&\index{\shellcmd{htpasswd}}& -cm /etc/svn-users jerry
+New password:
+Re-type new password:
+Adding password for user jerry
+\end{svnshell}
+
+创建 Subversion 父目录, 用于存放所有的工作  (见
+\texttt{/etc/httpd/conf.d/subversion.conf}\index{\texttt{subversion.conf}}):
+\begin{svnshell}
+[root@CentOS ~]# mkdir&\index{\shellcmd{mkdir}}& -p /var/www/svn
+\end{svnshell}
+
+\section{设置仓库}
+\label{sec:repository_setup}
+现在让我们来创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
+\shellcmd{svnadmin}\index{\texttt{svnadmin}} 在创建一个新的仓库时, 会在其中
+创建几个目录, 用于存放元数据:
+\begin{svnshell}
+[root@CentOS svn]# pwd&\index{\texttt{pwd}}&
+/var/www/svn
+[root@CentOS svn]# svnadmin&\index{\texttt{svnadmin}}& create&\index{\texttt{svnadmin}!\texttt{create}}& project_repo
+[root@CentOS svn]# ls&\index{\texttt{ls}}& -l project_repo
+total 24
+drwxr-xr-x. 2 root root 4096 Aug  4 22:30 conf
+drwxr-xr-x. 6 root root 4096 Aug  4 22:30 db
+-r--r--r--. 1 root root    2 Aug  4 22:30 format
+drwxr-xr-x. 2 root root 4096 Aug  4 22:30 hooks
+drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
+-rw-r--r--. 1 root root  229 Aug  4 22:30 README.txt
+\end{svnshell}
+
 \printindex
 
 \end{document}
