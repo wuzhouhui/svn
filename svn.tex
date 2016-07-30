@@ -227,6 +227,46 @@ drwxr-xr-x. 2 root root 4096 Aug  4 22:30 hooks
 drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
 -rw-r--r--. 1 root root  229 Aug  4 22:30 README.txt
 \end{svnshell}
+然后, 我们要修改仓库目录的用户与用户组:
+\begin{svnshell}
+[root@CentOS svn]# chown&\index{\texttt{chown}}& -R apache.apache project_repo/
+\end{svnshell}
+查看 SELinux\index{SELinux} 是否开启:
+\begin{svnshell}
+[root@CentOS svn]# sestatus&\index{SELinux!\texttt{sestatus}}&
+SELinux status:             enabled
+SELinuxfs mount:            /selinux
+Current mode:               enforcing
+Mode from config file:      enforcing
+Policy version:             24
+Policy from config file:    targeted
+\end{svnshell}
+在笔者的环境中, SELinux 默认是开启的, 因此我们还需要修改 SELinux 的安全上下文:
+\begin{svnshell}
+[root@CentOS svn]# chcon&\index{SELinux!\texttt{chcon}}& -R -t httpd_sys_content_t \
+> /var/www/svn/project_repo/
+\end{svnshell}
+为了能让开发人员通过 HTTP 进行提交, 执行:
+\begin{svnshell}
+[root@CentOS svn]# chcon&\index{SELinux!\texttt{chcon}}& -R -t httpd_sys_rw_content_t \
+> /var/www/svn/project_repo/
+\end{svnshell}
+和 Apache 相关的配置到这里为止就全部结束了, 现在我们需要重启一下 Apache 服务:
+\begin{svnshell}
+[root@CentOS svn]# service httpd restart
+Stopping httpd                          [FAILED]
+Starting httpd: httpd: apr_sockaddr_info_get() failed for CentOS
+httpd: Could not reliably determine the server's fully qualified domain
+name, using 127.0.0.1 for ServerName
+                                        [  OK  ]
+[root@CentOS svn]# service httpd status
+httpd (pid 1372) is running...
+\end{svnshell}
+
+接下来, 我们需要对仓库进行配置. 为了实现只有授权的用户才能访问仓库, 并且使用
+默认的授权文件, 就把下面几行添加到
+\texttt{project\_repo/conf/svnserve.conf}\index{\texttt{svnserve.conf}}
+文件中.
 
 \printindex
 
