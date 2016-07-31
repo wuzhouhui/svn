@@ -122,13 +122,14 @@ Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源�
 -bash: svn: command not found
 \end{svnshell}
 
-如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令 \shellcmd{yum}\index{yum}
+如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
+\shellcmd{yum}\index{\texttt{yum}}
 来安装
 Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
-[jerry@CentOS ~]# yum install subversion&\index{yum!install}&
+[jerry@CentOS ~]# yum install subversion&\index{\texttt{yum}!\texttt{install}}&
 
 [jerry@CentOS ~]$ svn --version&\index{svn!--version}&
 svn, version 1.6.11 (r934486)
@@ -159,7 +160,7 @@ compiled Jun 21 2013, 22:11:49
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
-[root@CentOS ~]# yum install&\index{yum!install}& mod_dav_svn subversion
+[root@CentOS ~]# yum install&\index{\texttt{yum}!\texttt{install}}& mod_dav_svn subversion
 \end{svnshell}
 安装了软件包 \texttt{mod\_dav\_svn}\index{\texttt{mod\_dav\_svn}} 之后, 用户就
 可以用 HTTP 来访问仓库, 软件包
