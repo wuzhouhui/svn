@@ -183,7 +183,8 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 \end{svnshell}
 
 现在我们开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
-\shellcmd{htpasswd}\index{htpasswd} 用于创建和更新纯文本文件, 这些文件中存放
+\shellcmd{htpasswd}\index{\texttt{htpasswd}} 用于创建和更新纯文本文件,
+这些文件中存放
 着用户名和密码. 如果指定了选项 \shellcmd{-c}, 则命令会创建一个密码文件, 如果
 密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
 \shellcmd{-m} 开启密码的 MD5 加密.
