@@ -267,6 +267,39 @@ httpd (pid 1372) is running...
 默认的授权文件, 就把下面几行添加到
 \texttt{project\_repo/conf/svnserve.conf}\index{\texttt{svnserve.conf}}
 文件中.
+\begin{svnshell}
+anon-access = none
+authz-db = authz
+\end{svnshell}
+
+传统上, 每一个仓库下面都有 \texttt{trunk}, \texttt{tags} 和 \texttt{branches}
+这三个目录.
+
+目录 \texttt{trunk}\index{\texttt{trunk}} 是主要开发发生的地方, 通常会被开发
+人员检出, 以便进行项目开发.
+
+目录 \texttt{tags}\index{\texttt{tags}} 用于存放项目的命名快照. 当需要发布
+一个产品版本时, 团队就会给代码打一个标签, 然后存放到这个目录中并发布.
+
+目录 \texttt{branches}\index{\texttt{branches}} 用于存放不同的开发线.
+
+现在, 我们就要在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
+这三个目录:
+\begin{svnshell}
+[root@CentOS svn]# mkdir&\index{\texttt{mkdir}}& /tmp/svn-template
+[root@CentOS svn]# mkdir /tmp/svn-template/trunk
+[root@CentOS svn]# mkdir /tmp/svn-template/branches
+[root@CentOS svn]# mkdir /tmp/svn-template/tags
+[root@CentOS svn]# svn import&\index{\texttt{svn}!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
+Adding              /tmp/svn-template/trunk
+Adding              /tmp/svn-template/branches
+Adding              /tmp/svn-template/tags
+Committed revision 1.
+[root@CentOS svn]#
+\end{svnshell}
+
+到这里为止, 我们已经成功创建了一个仓库, 该仓库允许 \texttt{tom} 和
+\texttt{jerry} 访问, 从现在开始, 他们两个就可以对仓库进行操作了.
 
 \printindex
 
