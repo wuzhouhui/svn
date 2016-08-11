@@ -395,6 +395,45 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 的, 提交日志会成为仓库历史的一部分. 提交是一种原子操作, 要么全部修改都提交
 上去, 要么一个也没有, 不可能看到只提交一半的修改.
 
+\chapter{检出}
+\label{chap:checkout_process}
+
+Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
+会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
+感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
+访问权限控制:
+\begin{svnshell}
+[tom@CentOS ~]$ svn checkout&\index{\texttt{svn}!\texttt{checkout}}& http://svn.server.com/svn/project_repo --username=tom
+\end{svnshell}
+
+上面命令的输出信息类似于:
+\begin{svnshell}
+A	project_repo/trunk
+A	project_repo/branches
+A	project_repo/tags
+Checked out revision 1.
+\end{svnshell}
+
+如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息, 可以使用
+命令 \texttt{info}:
+\begin{svnshell}
+[tom@CentOS trunk]$ pwd
+/home/tom/project_repo/trunk
+[tom@CentOS trunk]$ svn info&\index{\texttt{svn}!\texttt{info}}&
+\end{svnshell}
+上面命令的输出信息类似于:
+\begin{svnshell}
+Path: .
+URL: http://svn.server.com/svn/project_repo/trunk
+Repository Root: http://svn.server.com/svn/project_repo
+Repository UUID: 7ceef8cb-3799-40dd-a067-c216ec2e5247
+Revision: 1
+Node Kind: directory
+Schedule: normal
+Last Changed Author: jerry
+Last Changed Rev: 0
+\end{svnshell}
+
 \printindex
 
 \end{document}
