@@ -17,6 +17,15 @@
     }
   }
   {}
+\lstnewenvironment{ccode}
+  {
+    \lstset{basicstyle = \ttfamily,
+        tabsize = 4,
+        xleftmargin = 2em,
+        frame = single,
+    }
+  }
+  {}
 
 \makeindex
 \setCJKmainfont{AR PL UMing CN}
@@ -432,7 +441,46 @@ Node Kind: directory
 Schedule: normal
 Last Changed Author: jerry
 Last Changed Rev: 0
+Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
+[tom@CentOS trunk]$
 \end{svnshell}
+
+\chapter{执行修改}
+\label{chap:perform_changes}
+
+假设 Jerry 从仓库中检出了最新的版本, 然后开始对项目进行开发, 他首先在主干目
+录内创建了一个 \texttt{array.c} 文件:
+\begin{svnshell}
+[jerry@CentOS ~]$ cd project_repo/trunk/
+[jerry@CentOS trunk]$ cat&\index{\texttt{cat}}& array.c
+\end{svnshell}
+命令的输出内容是:
+\begin{ccode}
+#include <stdio.h>
+
+#define MAX 16
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	printf("Enter the elements\n");
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+
+	printf("Array has folloing elements\n");
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+
+	return 0;
+}
+\end{ccode}
 
 \printindex
 
