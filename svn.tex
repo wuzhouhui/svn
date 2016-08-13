@@ -4,6 +4,7 @@
 \usepackage{hyperref}
 \usepackage{makeidx}
 \usepackage{listings}
+\usepackage{geometry}
 
 \newcommand\shellcmd[1]{\texttt{#1}}
 \newcommand\svn{\texttt{svn}}
@@ -17,7 +18,6 @@
   {
     \lstset{basicstyle = \ttfamily,
         tabsize = 4,
-        xleftmargin = 2em,
         frame = single,
         escapechar = &,
     }
@@ -27,7 +27,6 @@
   {
     \lstset{basicstyle = \ttfamily,
         tabsize = 4,
-        xleftmargin = 2em,
         frame = single,
         escapechar = `,
     }
@@ -42,6 +41,13 @@
 \setsansfont{FreeSans}
 % "Mapping={}" make quote symbol straight
 \setmonofont[Mapping={}]{Courier 10 Pitch}
+
+\geometry{%
+    top = 2.5cm,
+    bottom = 2cm,
+    outer = 2.5cm,
+    inner = 2.5cm
+}
 
 \title{SVN 教程}
 \author{\url{www.tutorialspoint.com/svn/index.htm} \and
