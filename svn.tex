@@ -124,12 +124,12 @@ Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源�
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 \end{svnshell}
 如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
 的话, 就会输出一条错误信息:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 -bash: svn: command not found
 \end{svnshell}
 
@@ -142,7 +142,7 @@ Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安�
 Password:
 [jerry@CentOS ~]# yum install subversion&\index{\texttt{yum}!\texttt{install}}&
 
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 svn, version 1.6.11 (r934486)
 compiled Jun 23 2012, 00:44:03
 \end{svnshell}
@@ -155,7 +155,7 @@ compiled Jun 23 2012, 00:44:03
 
 [jerry@Ubuntu]$ sudo apt-get install subversion&\index{\texttt{apt}!\texttt{install}}&
 
-[jerry@Ubuntu]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@Ubuntu]$ svn --version&\index{\svn!\texttt{--version}}&
 svn, version 1.7.5 (r1336830)
 compiled Jun 21 2013, 22:11:49
 \end{svnshell}
@@ -304,7 +304,7 @@ authz-db = authz
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{\texttt{svn}!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
+[root@CentOS svn]# svn import&\index{\svn!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
 Adding              /tmp/svn-template/trunk
 Adding              /tmp/svn-template/branches
 Adding              /tmp/svn-template/tags
@@ -414,7 +414,7 @@ Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副�
 感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
-[tom@CentOS ~]$ svn checkout&\index{\texttt{svn}!\texttt{checkout}}& http://svn.server.com/svn/project_repo --username=tom
+[tom@CentOS ~]$ svn checkout&\index{\svn!\texttt{checkout}}& http://svn.server.com/svn/project_repo --username=tom
 \end{svnshell}
 
 上面命令的输出信息类似于:
@@ -430,7 +430,7 @@ Checked out revision 1.
 \begin{svnshell}
 [tom@CentOS trunk]$ pwd
 /home/tom/project_repo/trunk
-[tom@CentOS trunk]$ svn info&\index{\texttt{svn}!\texttt{info}}&
+[tom@CentOS trunk]$ svn info&\index{\svn!\texttt{info}}&
 \end{svnshell}
 上面命令的输出信息类似于:
 \begin{svnshell}
@@ -502,7 +502,7 @@ Array has following elements
 编译和运行看来都没什么问题, 现在他准备提交代码.
 
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn status&\index{\texttt{svn}!\texttt{status}}&
+[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
 ?	array.c
 ?	array
 \end{svnshell}
@@ -511,13 +511,13 @@ Array has following elements
 
 在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn add&\index{\texttt{svn}!\texttt{add}}& array.c
+[jerry@CentOS trunk]$ svn add&\index{\svn!\texttt{add}}& array.c
 A	array.c
 \end{svnshell}
 
 现在让我们再检查一下工作副本的状态:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn status&\index{\texttt{svn}!\texttt{status}}&
+[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
 ?	array
 A	array.c
 \end{svnshell}
