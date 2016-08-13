@@ -482,6 +482,47 @@ int main(void)
 }
 \end{ccode}
 
+他想在提交之前先测试一下代码:
+\begin{svnshell}
+[jerry@CentOS trunk]$ make array
+cc	array.c -o array
+[jerry@CentOS trunk]$ ./array
+Enter the total number of elements: 5
+Enter the elements
+1
+2
+3
+4
+5
+Array has following elements
+|1| |2| |3| |4| |5| 
+\end{svnshell}
+编译和运行看来都没什么问题, 现在他准备提交代码.
+
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn status&\index{\texttt{svn}!\texttt{status}}&
+?	array.c
+?	array
+\end{svnshell}
+如果 subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
+\texttt{?}.
+
+在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn add&\index{\texttt{svn}!\texttt{add}}& array.c
+A	array.c
+\end{svnshell}
+
+现在让我们再检查一下工作副本的状态:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn status&\index{\texttt{svn}!\texttt{status}}&
+?	array
+A	array.c
+\end{svnshell}
+
+\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的变化列
+表上.
+
 \printindex
 
 \end{document}
