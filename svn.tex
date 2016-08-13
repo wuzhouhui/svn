@@ -537,6 +537,99 @@ Committed revision 2.
 现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
 更新.
 
+\backmatter
+\chapter{Ubuntu 搭建 Subversion 服务器}
+\label{chap:ubuntu_install_subversion_server}
+本章介绍 Ubuntu 12.04 搭建 Subversion 服务器的过程.
+
+\begin{enumerate}
+  \item 安装必要的软件包
+\begin{svnshell}
+~$ sudo apt-get install subversion apache2 libapache2-svn apache2-utils
+\end{svnshell}
+
+  \item
+\begin{svnshell}
+~$ sudo mkdir -p /svn/repos/
+~$ sudo svnadmin create /svn/repos/testrepo
+\end{svnshell}
+    \texttt{/svn/repos/} 是存放所有仓库的目录, 当然, 你也可以用其他目录, 但是
+    别忘了更新配置文件. 作为演示, 我们创建了一个仓库 \texttt{testrepo}.
+
+  \item 更新仓库的用户与用户组, 否则的话, Apache 就无法正常地访问它:
+\begin{svnshell}
+~$ sudo chown -R www-data:www-data /svn/repos/testrepo
+\end{svnshell}
+
+  \item 在 Apache 的配置文件目录中, 为 Subversion 创建一个配置文件, 文件的
+      内容是:
+\begin{svnshell}
+~$ cat /etc/apache2/sites-available/svn.conf
+LoadModule dav_module /usr/lib/apache2/modules/mod_dav.so
+LoadModule dav_svn_module /usr/lib/apache2/modules/mod_dav_svn.so
+LoadModule authz_svn_module /usr/lib/apache2/modules/mod_authz_svn.so
+<Location /svn>
+    DAV svn
+    SVNParentPath /svn/repos/
+    AuthType Basic
+    AuthName "Test Repo"
+    AuthUserFile /etc/svnpasswd
+    Require valid-user
+</Location>
+~$
+\end{svnshell}
+
+  \item 使能站点, 命令的参数是站点的配置文件名:
+\begin{svnshell}
+~$ sudo a2ensite svn.conf
+Enabling site svn.
+To activate the new configuration, you need to run:
+  service apache2 reload
+~$
+\end{svnshell}
+
+  \item 重启 Apache:
+\begin{svnshell}
+~$ sudo service apache2 reload
+ * Restarting web server apache2
+ AH00558: apache2: Could not reliably determine the server's fully qualified
+ domain name, using 127.0.1.1. Set the 'ServerName' directive globally to
+ suppress this message
+                                                                        [ OK ]
+~$
+\end{svnshell}
+
+  \item 创建用户及其密码:
+\begin{svnshell}
+~$ sudo htpasswd -cm /etc/svnpasswd user1
+svn$ sudo htpasswd -cm /etc/svnpasswd user1
+New password: 
+Re-type new password: 
+Adding password for user user1
+~$
+\end{svnshell}
+    再创建一个用户:
+\begin{svnshell}
+~$ sudo htpasswd -m /etc/svnpasswd user2
+sudo htpasswd -m /etc/svnpasswd user2
+New password: 
+Re-type new password: 
+Adding password for user user2
+svn$ 
+
+\end{svnshell}
+    在第一次执行 \texttt{htpasswd} 时, 才需要带上参数 \texttt{-m}.
+\end{enumerate}
+
+现在, 你可以在网页上输入 \url{http://127.0.0.1/svn/testrepo} 来访问仓库:
+\begin{center}
+    \includegraphics[scale=0.47]{./images/webtestrepo.png}
+\end{center}
+或者用 Subversion 客户端命令来检出工作副本:
+\begin{center}
+    \includegraphics[scale=0.5]{./images/terminalrepo.png}
+\end{center}
+
 \printindex
 
 \end{document}
