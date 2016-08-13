@@ -4,18 +4,24 @@
 \usepackage{hyperref}
 \usepackage{makeidx}
 \usepackage{listings}
+\usepackage{geometry}
 
 \newcommand\shellcmd[1]{\texttt{#1}}
 \newcommand\svn{\texttt{svn}}
 \newcommand\svnci{\texttt{commit}}
+\newcommand\svnco{\texttt{checkout}}
+\newcommand\svnlog{\texttt{log}}
+\newcommand\svnst{\texttt{status}}
+\newcommand\svndf{\texttt{diff}}
 
 \lstnewenvironment{svnshell}
   {
     \lstset{basicstyle = \ttfamily,
         tabsize = 4,
-        xleftmargin = 2em,
         frame = single,
         escapechar = &,
+        breaklines = true,
+        breakatwhitespace = true,
     }
   }
   {}
@@ -23,20 +29,29 @@
   {
     \lstset{basicstyle = \ttfamily,
         tabsize = 4,
-        xleftmargin = 2em,
         frame = single,
+        escapechar = `,
+        breaklines = true,
+        breakatwhitespace = true,
     }
   }
   {}
 
 \makeindex
-\setCJKmainfont{AR PL UMing CN}
-\setCJKsansfont{AR PL UMing CN}
-\setCJKmonofont[Scale=0.9]{AR PL UMing CN}
-\setmainfont{FreeSerif}
+\setCJKmainfont{AR PL KaitiM GB}
+\setCJKsansfont{WenQuanYi Zen Hei}
+\setCJKmonofont[Scale=0.9]{WenQuanYi Zen Hei}
+\setmainfont{Century Schoolbook L}
 \setsansfont{FreeSans}
 % "Mapping={}" make quote symbol straight
-\setmonofont[Mapping={}]{FreeMono}
+\setmonofont[Mapping={}]{Courier 10 Pitch}
+
+\geometry{%
+    top = 2.5cm,
+    bottom = 2cm,
+    outer = 2.5cm,
+    inner = 2.5cm
+}
 
 \title{SVN 教程}
 \author{\url{www.tutorialspoint.com/svn/index.htm} \and
@@ -412,10 +427,6 @@ Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副�
 访问权限控制:
 \begin{svnshell}
 [tom@CentOS ~]$ svn checkout&\index{\svn!\texttt{checkout}}& http://svn.server.com/svn/project_repo --username=tom
-\end{svnshell}
-
-上面命令的输出信息类似于:
-\begin{svnshell}
 A	project_repo/trunk
 A	project_repo/branches
 A	project_repo/tags
@@ -428,9 +439,6 @@ Checked out revision 1.
 [tom@CentOS trunk]$ pwd
 /home/tom/project_repo/trunk
 [tom@CentOS trunk]$ svn info&\index{\svn!\texttt{info}}&
-\end{svnshell}
-上面命令的输出信息类似于:
-\begin{svnshell}
 Path: .
 URL: http://svn.server.com/svn/project_repo/trunk
 Repository Root: http://svn.server.com/svn/project_repo
@@ -449,12 +457,9 @@ Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
 
 假设 Jerry 从仓库中检出了最新的版本, 然后开始对项目进行开发, 他首先在主干目
 录内创建了一个 \texttt{array.c} 文件:
-\begin{svnshell}
-[jerry@CentOS ~]$ cd project_repo/trunk/
-[jerry@CentOS trunk]$ cat&\index{\texttt{cat}}& array.c
-\end{svnshell}
-命令的输出内容是:
 \begin{ccode}
+[jerry@CentOS ~]$ cd project_repo/trunk/
+[jerry@CentOS trunk]$ cat`\index{\texttt{cat}}` array.c
 #include <stdio.h>
 
 #define MAX 16
@@ -533,6 +538,207 @@ Committed revision 2.
 \end{svnshell}
 现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
 更新.
+
+\chapter{审核修改}
+\label{chap:review_changes}
+Jerry 把 \texttt{array.c} 提交到仓库后, Tom 从仓库中检出了最新的代码, 然后
+开始工作:
+\begin{svnshell}
+[tom@CentOS ~]$ svn co&\index{\svn!\svnco}& http://svn.server.conm/svn/project_repo --username=tom
+A    project_repo/tags
+A    project_repo/trunk
+A    project_repo/branches
+A    project_repo/trunk/array.c
+Checked out revision 2.
+\end{svnshell}
+
+Tom 发现已经有人往仓库中提交了代码, 他很好奇这些代码是谁提交上去的, 于是, 他
+执行下面的命令来查看提交历史:
+\begin{svnshell}
+[tom@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+------------------------------------------------------------------------
+r2 | jerry | 2016-08-13 13:28:07 +0800 (Sat, 13 Aug 2016) | 1 line
+
+Initial commit
+------------------------------------------------------------------------
+r1 | jerry | 2016-08-13 13:26:40 +0800 (Sat, 13 Aug 2016) | 2 lines
+
+Create trunk, branches, tags directory structure.
+
+------------------------------------------------------------------------
+\end{svnshell}
+
+Tom 发现 Jerry 的代码中有一个问题: 程序没有检查数组越界的情况, 这可能会导致
+很严重的后果, 于是 Tom 决定自己把这个问题修复掉. 修改完成后, \texttt{array.c}
+的内容变成了:
+\begin{ccode}
+#include <stdio.h>
+
+#define MAX 16
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	/* handle array overflow condition */
+	if (n > MAX) {
+		fprintf(stderr, "Number of elements must be less than %d\n", MAX);
+		return 1;
+	}
+
+	printf("Enter the elements\n");
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+
+	printf("Array has folloing elements\n");
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+
+	return 0;
+}
+\end{ccode}
+执行状态命令, 查看未决的修改列表:
+\begin{svnshell}
+[tom@CentOS trunk]$ svn status&\index{\svn\svnst}&
+M       array.c
+\end{svnshell}
+因为 \texttt{array.c} 的内容发生了变化, 因此它的左边会显示一个 \texttt{M}.
+Tom 编译并运行程序后, 觉得没什么问题, 但是在提交前, 他还想再检查一下代码发生
+了哪些变化:
+\begin{ccode}
+[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 2)
++++ array.c	(working copy)
+@@ -9,6 +9,12 @@
+ 	printf("Enter the total number of elements: ");
+ 	scanf("%d", &n);
+ 
++	/* handle array overflow condition */
++	if (n > MAX) {
++		fprintf(stderr, "Number of elements must be less than %d\n", MAX);
++		return 1;
++	}
++
+ 	printf("Enter the elements\n");
+ 
+ 	for (i = 0; i < n; i++)
+\end{ccode}
+左边的 \texttt{+} 表示这是新增的行. 检查没问题后, 接下来就可以提交了:
+\begin{svnshell}
+[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Fix array overflow problem"
+Sending        array.c
+Transmitting file data .
+Committed revision 3.
+\end{svnshell}
+到这里为止, Tom 所做的修改就已经正式提交到了仓库中.
+
+\chapter{更新}
+\label{chap:update_process}
+
+Jerry 曾经提交过 \texttt{array.c} 的第一个版本, 但是他认为应该用两个函数来
+分别负责数据输入和数据打印, 于是, \texttt{array.c} 被修改成:
+\begin{ccode}
+#include <stdio.h>
+
+#define MAX 16
+
+void accept_input(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+}
+
+void display(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+}
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	printf("Enter the elements\n");
+	accept_input(arr, n);
+
+	printf("Array has folloing elements\n");
+	display(arr, n);
+
+	return 0;
+}
+\end{ccode}
+
+编译并简单地测试后, Jerry 准备提交代码, 但是在提交前, 他想要审核一下代码的
+修改:
+\begin{ccode}
+[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 2)
++++ array.c	(working copy)
+@@ -2,6 +2,24 @@
+ 
+ #define MAX 16
+ 
++void accept_input(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		scanf("%d", &arr[i]);
++}
++
++void display(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		printf("|%d| ", arr[i]);
++
++	printf("\n");
++}
++
+ int main(void)
+ {
+ 	int i, n, arr[MAX];
+@@ -10,15 +28,10 @@
+ 	scanf("%d", &n);
+ 
+ 	printf("Enter the elements\n");
++	accept_input(arr, n);
+ 
+-	for (i = 0; i < n; i++)
+-		scanf("%d", &arr[i]);
+-
+ 	printf("Array has folloing elements\n");
+-	for (i = 0; i < n; i++)
+-		printf("|%d| ", arr[i]);
++	display(arr, n);
+ 
+-	printf("\n");
+-
+ 	return 0;
+ }
+\end{ccode}
+新增的行, 其左边用 \texttt{+} 标记, 被删除的行则用 \texttt{-}. 现在 Jerry
+试图向仓库中提交代码:
 
 \printindex
 
