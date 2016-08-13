@@ -6,6 +6,8 @@
 \usepackage{listings}
 
 \newcommand\shellcmd[1]{\texttt{#1}}
+\newcommand\svn{\texttt{svn}}
+\newcommand\svnci{\texttt{commit}}
 
 \lstnewenvironment{svnshell}
   {
@@ -14,6 +16,15 @@
         xleftmargin = 2em,
         frame = single,
         escapechar = &,
+    }
+  }
+  {}
+\lstnewenvironment{ccode}
+  {
+    \lstset{basicstyle = \ttfamily,
+        tabsize = 4,
+        xleftmargin = 2em,
+        frame = single,
     }
   }
   {}
@@ -110,12 +121,12 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 \end{svnshell}
 如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
 的话, 就会输出一条错误信息:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 -bash: svn: command not found
 \end{svnshell}
 
@@ -128,7 +139,7 @@ Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安�
 Password:
 [jerry@CentOS ~]# yum install subversion&\index{\texttt{yum}!\texttt{install}}&
 
-[jerry@CentOS ~]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
 svn, version 1.6.11 (r934486)
 compiled Jun 23 2012, 00:44:03
 \end{svnshell}
@@ -141,7 +152,7 @@ compiled Jun 23 2012, 00:44:03
 
 [jerry@Ubuntu]$ sudo apt-get install subversion&\index{\texttt{apt}!\texttt{install}}&
 
-[jerry@Ubuntu]$ svn --version&\index{\texttt{svn}!\texttt{--version}}&
+[jerry@Ubuntu]$ svn --version&\index{\svn!\texttt{--version}}&
 svn, version 1.7.5 (r1336830)
 compiled Jun 21 2013, 22:11:49
 \end{svnshell}
@@ -290,7 +301,7 @@ authz-db = authz
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{\texttt{svn}!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
+[root@CentOS svn]# svn import&\index{\svn!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
 Adding              /tmp/svn-template/trunk
 Adding              /tmp/svn-template/branches
 Adding              /tmp/svn-template/tags
@@ -391,6 +402,137 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 方. 在提交时, 开发人员通常要写上提交日志, 在日志中解释为什么这次修改是必要
 的, 提交日志会成为仓库历史的一部分. 提交是一种原子操作, 要么全部修改都提交
 上去, 要么一个也没有, 不可能看到只提交一半的修改.
+
+\chapter{检出}
+\label{chap:checkout_process}
+
+Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
+会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
+感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
+访问权限控制:
+\begin{svnshell}
+[tom@CentOS ~]$ svn checkout&\index{\svn!\texttt{checkout}}& http://svn.server.com/svn/project_repo --username=tom
+\end{svnshell}
+
+上面命令的输出信息类似于:
+\begin{svnshell}
+A	project_repo/trunk
+A	project_repo/branches
+A	project_repo/tags
+Checked out revision 1.
+\end{svnshell}
+
+如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息, 可以使用
+命令 \texttt{info}:
+\begin{svnshell}
+[tom@CentOS trunk]$ pwd
+/home/tom/project_repo/trunk
+[tom@CentOS trunk]$ svn info&\index{\svn!\texttt{info}}&
+\end{svnshell}
+上面命令的输出信息类似于:
+\begin{svnshell}
+Path: .
+URL: http://svn.server.com/svn/project_repo/trunk
+Repository Root: http://svn.server.com/svn/project_repo
+Repository UUID: 7ceef8cb-3799-40dd-a067-c216ec2e5247
+Revision: 1
+Node Kind: directory
+Schedule: normal
+Last Changed Author: jerry
+Last Changed Rev: 0
+Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
+[tom@CentOS trunk]$
+\end{svnshell}
+
+\chapter{执行修改}
+\label{chap:perform_changes}
+
+假设 Jerry 从仓库中检出了最新的版本, 然后开始对项目进行开发, 他首先在主干目
+录内创建了一个 \texttt{array.c} 文件:
+\begin{svnshell}
+[jerry@CentOS ~]$ cd project_repo/trunk/
+[jerry@CentOS trunk]$ cat&\index{\texttt{cat}}& array.c
+\end{svnshell}
+命令的输出内容是:
+\begin{ccode}
+#include <stdio.h>
+
+#define MAX 16
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	printf("Enter the elements\n");
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+
+	printf("Array has folloing elements\n");
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+
+	return 0;
+}
+\end{ccode}
+
+他想在提交之前先测试一下代码:
+\begin{svnshell}
+[jerry@CentOS trunk]$ make array
+cc	array.c -o array
+[jerry@CentOS trunk]$ ./array
+Enter the total number of elements: 5
+Enter the elements
+1
+2
+3
+4
+5
+Array has following elements
+|1| |2| |3| |4| |5| 
+\end{svnshell}
+编译和运行看来都没什么问题, 现在他准备提交代码.
+
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
+?	array.c
+?	array
+\end{svnshell}
+如果 subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
+\texttt{?}.
+
+在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn add&\index{\svn!\texttt{add}}& array.c
+A	array.c
+\end{svnshell}
+
+现在让我们再检查一下工作副本的状态:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
+?	array
+A	array.c
+\end{svnshell}
+\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的变化列
+表上.
+
+为了把 \texttt{array.c} 更新到仓库中, 需要执行命令 \svnci, 并带上参数
+\texttt{-m}, 这样我们就可以直接在命令行上写提交信息, 如果省略了参数
+\texttt{-m}, subversion 就会自动打开一个文本编辑器, 开发人员也可以在编辑器中
+写提交信息:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Initial commit"
+Adding		trunk/array.c
+Transmitting file data .
+Committed revision 2.
+\end{svnshell}
+现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
+更新.
 
 \printindex
 
