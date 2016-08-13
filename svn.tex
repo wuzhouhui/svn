@@ -8,6 +8,7 @@
 \newcommand\shellcmd[1]{\texttt{#1}}
 \newcommand\svn{\texttt{svn}}
 \newcommand\svnci{\texttt{commit}}
+\newcommand\svnco{\texttt{checkout}}
 
 \lstnewenvironment{svnshell}
   {
@@ -536,6 +537,22 @@ Committed revision 2.
 \end{svnshell}
 现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
 更新.
+
+\chapter{审核修改}
+\label{chap:review_changes}
+Jerry 把 \texttt{array.c} 提交到仓库后, Tom 从仓库中检出了最新的代码, 然后
+开始工作:
+\begin{svnshell}
+[tom@CentOS ~]$ svn co&\index{\svn!\svnco}& http://svn.server.conm/svn/project_repo --username=tom
+\end{svnshell}
+命令的输出是:
+\begin{svnshell}
+A    project_repo/tags
+A    project_repo/trunk
+A    project_repo/branches
+A    project_repo/trunk/array.c
+Checked out revision 2.
+\end{svnshell}
 
 \printindex
 
