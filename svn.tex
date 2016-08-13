@@ -643,6 +643,106 @@ Committed revision 3.
 \end{svnshell}
 到这里为止, Tom 所做的修改就已经正式提交到了仓库中.
 
+\chapter{更新}
+\label{chap:update_process}
+
+Jerry 曾经提交过 \texttt{array.c} 的第一个版本, 但是他认为应该用两个函数来
+分别负责数据输入和数据打印, 于是, \texttt{array.c} 被修改成:
+\begin{ccode}
+#include <stdio.h>
+
+#define MAX 16
+
+void accept_input(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+}
+
+void display(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+}
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	printf("Enter the elements\n");
+	accept_input(arr, n);
+
+	printf("Array has folloing elements\n");
+	display(arr, n);
+
+	return 0;
+}
+\end{ccode}
+
+编译并简单地测试后, Jerry 准备提交代码, 但是在提交前, 他想要审核一下代码的
+修改:
+\begin{ccode}
+[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 2)
++++ array.c	(working copy)
+@@ -2,6 +2,24 @@
+ 
+ #define MAX 16
+ 
++void accept_input(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		scanf("%d", &arr[i]);
++}
++
++void display(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		printf("|%d| ", arr[i]);
++
++	printf("\n");
++}
++
+ int main(void)
+ {
+ 	int i, n, arr[MAX];
+@@ -10,15 +28,10 @@
+ 	scanf("%d", &n);
+ 
+ 	printf("Enter the elements\n");
++	accept_input(arr, n);
+ 
+-	for (i = 0; i < n; i++)
+-		scanf("%d", &arr[i]);
+-
+ 	printf("Array has folloing elements\n");
+-	for (i = 0; i < n; i++)
+-		printf("|%d| ", arr[i]);
++	display(arr, n);
+ 
+-	printf("\n");
+-
+ 	return 0;
+ }
+\end{ccode}
+新增的行, 其左边用 \texttt{+} 标记, 被删除的行则用 \texttt{-}. 现在 Jerry
+试图向仓库中提交代码:
+
 \printindex
 
 \end{document}
