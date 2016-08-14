@@ -16,6 +16,7 @@
 \newcommand\svnup{\texttt{update}}
 \newcommand\svngcc{\texttt{gcc}}
 \newcommand\svnrv{\texttt{revert}}
+\newcommand\svnpwd{\texttt{pwd}}
 
 \lstnewenvironment{svnshell}
   {
@@ -244,7 +245,7 @@ Adding password for user jerry
 \shellcmd{svnadmin}\index{\texttt{svnadmin}} 在创建一个新的仓库时, 会在其中
 创建几个目录, 用于存放元数据:
 \begin{svnshell}
-[root@CentOS svn]# pwd&\index{\texttt{pwd}}&
+[root@CentOS svn]# pwd&\index{\svnpwd}&
 /var/www/svn
 [root@CentOS svn]# svnadmin&\index{\texttt{svnadmin}}& create&\index{\texttt{svnadmin}!\texttt{create}}& project_repo
 [root@CentOS svn]# ls&\index{\texttt{ls}}& -l project_repo
@@ -439,7 +440,7 @@ Checked out revision 1.
 如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息, 可以使用
 命令 \texttt{info}:
 \begin{svnshell}
-[tom@CentOS trunk]$ pwd
+[tom@CentOS trunk]$ pwd&\index{\svnpwd}&
 /home/tom/project_repo/trunk
 [tom@CentOS trunk]$ svn info&\index{\svn!\texttt{info}}&
 Path: .
@@ -880,6 +881,68 @@ Reverted 'array.c'
 [jerry@CentOS trunk]$ gcc&\index{\svngcc}& -o array
 [jerry@CentOS trunk]$
 \end{svnshell}
+
+撤消修改后, 工作副本恢复到了修改前的状态. 操作 revert 不仅可以回滚一个文件, 还
+可以针对整个目录进行回滚. 回滚目录时, 需要带上参数 \texttt{-R}:
+\begin{svnshell}
+[jerry@CentOS project_repo]$ pwd&\index{\svnpwd}&
+/home/jerry/project_repo
+[jerry@CentOS project_repo]$ svn revert&\index{\svn!\svnrv}& -R trunk
+\end{svnshell}
+
+到现在为止, 我们已经介绍了如何撤消工作副本中未提交的修改, 但是, 如果修改已经
+提交了, 那这时候又该怎么办. VCS 不允许从仓库中删除提交历史, 我们所能做的只有
+添加历史. 为了撤消某个修订, 我们必须撤消该修订中所提交的所有修改, 然后再提交
+一个新的修订, 这种操作叫作逆向合并 (reverse merge).
+
+假设 Jerry 为 \texttt{array.c} 定义了一个新函数, 用于线性搜索, 审核后, 他提交
+了代码:
+\begin{ccode}
+[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 5)
++++ array.c	(working copy)
+@@ -3,6 +3,16 @@
+ 
+ #define MAX 16
+ 
++int linear_search(int *arr, int n, int key)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		if (arr[i] == key)
++			return(i);
++	return(-1);
++}
++
+ static int cmp(const void *a, const void *b)
+ {
+ 	return(*(int *)a - *(int *)b);
+[jerry@CentOS trunk]$ svn status`\index{\svn!\svnst}`
+M       array.c
+[jerry@CentOS trunk]$ svn commit`\index{\svn!\svnci}` -m "Added code for linear
+search"
+Sending        array.c
+Transmitting file data .
+Committed revision 6.
+\end{ccode}
+
+Jerry 想知道 Tom 向仓库提交了哪些代码:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+------------------------------------------------------------------------
+r5 | tom | 2016-08-14 17:30:06 +0800 (Sun, 14 Aug 2016) | 1 line
+
+Add binary search operation
+------------------------------------------------------------------------
+r4 | jerry | 2016-08-14 08:51:29 +0800 (Sun, 14 Aug 2016) | 1 line
+
+Add function to accept input and to display contents
+\end{svnshell}
+从日志中, Jerry 意识到他犯了一个严重的错误: Tom 已经实现了一个二分搜索, 它
+比线性搜索要好得多, 所以他添加的代码就变成多余的了.
 
 \printindex
 
