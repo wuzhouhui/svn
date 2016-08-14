@@ -13,6 +13,7 @@
 \newcommand\svnlog{\texttt{log}}
 \newcommand\svnst{\texttt{status}}
 \newcommand\svndf{\texttt{diff}}
+\newcommand\svnup{\texttt{update}}
 
 \lstnewenvironment{svnshell}
   {
@@ -742,6 +743,106 @@ Index: array.c
 \end{ccode}
 新增的行, 其左边用 \texttt{+} 标记, 被删除的行则用 \texttt{-}. 现在 Jerry
 试图向仓库中提交代码:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Add function to accept input and to display array contents"
+\end{svnshell}
+结果命令输出:
+\begin{svnshell}
+Sending        array.c
+Transmitting file data .svn: E155011: Commit failed (details follow):
+svn: E155011: File '/home/dell/Documents/svn/jerry_project_repo/trunk/array.c' is out of date
+svn: E170004: Item '/trunk/array.c' is out of date
+\end{svnshell}
+
+因为 Tom 在此之前已经向仓库提交过修改, 所以 Jerry 的工作副本就变成过时了的,
+这时候 Subversion 会禁止 Jerry 提交修改, 否则的话, 其他人的修改可能会被覆盖
+掉. 为了提交成功, Jerry 必须先更新工作副本:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn update&\index{\svn!\svnup}&
+Updating '.':
+G    trunk/array.c
+Updated to revision 3.
+\end{svnshell}
+文件名左边的 \texttt{G} 表示该文件被合并了.
+
+\begin{ccode}
+[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 3)
++++ array.c	(working copy)
+@@ -2,6 +2,24 @@
+ 
+ #define MAX 16
+ 
++void accept_input(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		scanf("%d", &arr[i]);
++}
++
++void display(int *arr, int n)
++{
++	int i;
++
++	for (i = 0; i < n; i++)
++		printf("|%d| ", arr[i]);
++
++	printf("\n");
++}
++
+ int main(void)
+ {
+ 	int i, n, arr[MAX];
+@@ -16,15 +34,10 @@
+ 	}
+ 
+ 	printf("Enter the elements\n");
++	accept_input(arr, n);
+ 
+-	for (i = 0; i < n; i++)
+-		scanf("%d", &arr[i]);
+-
+ 	printf("Array has folloing elements\n");
+-	for (i = 0; i < n; i++)
+-		printf("|%d| ", arr[i]);
++	display(arr, n);
+ 
+-	printf("\n");
+-
+ 	return 0;
+ }
+\end{ccode}
+上面只显示了 Jerry 的修改, 但是这时候 \texttt{array.c} 被合并过了. 细心的读者
+可能会发现输出中的修订号变成了 3, 而在上一次的 \texttt{svn diff} 输出中, 修订
+号是 2. 再查看一下是谁修改了代码:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+------------------------------------------------------------------------
+r3 | tom | 2016-08-13 16:35:55 +0800 (Sat, 13 Aug 2016) | 1 line
+
+Fix array overflow problem
+------------------------------------------------------------------------
+r2 | jerry | 2016-08-13 13:28:07 +0800 (Sat, 13 Aug 2016) | 1 line
+
+Initial commit
+------------------------------------------------------------------------
+r1 | jerry | 2016-08-13 13:26:40 +0800 (Sat, 13 Aug 2016) | 2 lines
+
+Create trunk, branches, tags directory structure.
+
+------------------------------------------------------------------------
+\end{svnshell}
+
+工作副本更新后, 现在就可以安全地向仓库提交代码了:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Add function to accept input and to display array contents"
+Sending        array.c
+Transmitting file data .
+Committed revision 4.
+\end{svnshell}
 
 \printindex
 
