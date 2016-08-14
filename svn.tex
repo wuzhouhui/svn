@@ -14,6 +14,8 @@
 \newcommand\svnst{\texttt{status}}
 \newcommand\svndf{\texttt{diff}}
 \newcommand\svnup{\texttt{update}}
+\newcommand\svngcc{\texttt{gcc}}
+\newcommand\svnrv{\texttt{revert}}
 
 \lstnewenvironment{svnshell}
   {
@@ -842,6 +844,44 @@ Create trunk, branches, tags directory structure.
 Sending        array.c
 Transmitting file data .
 Committed revision 4.
+\end{svnshell}
+
+\chapter{修改错误}
+\label{chap:fix_mistakes}
+
+假设 Jerry 修改完 \texttt{array.c} 后, 遇到了编译错误, 因此他想要丢弃现在的
+修改, 这时候就需要执行 revert 操作. 操作 revert 可以撤消本地工作副本中文件
+或目录的修改, 除此之外, 它还可以用来解决冲突.
+
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+M       array.c
+\end{svnshell}
+\texttt{array.c} 被修改了, 如果我们试图编译它的话:
+\begin{ccode}
+[jerry@CentOS trunk]$ gcc`\index{\svngcc}` array.c -o array
+array.c: In function ‘main’:
+array.c:28:15: error: ‘n’ undeclared (first use in this function)
+  scanf("%d", &n);
+               ^
+array.c:28:15: note: each undeclared identifier is reported only once for each function it appears in
+array.c:37:15: error: ‘arr’ undeclared (first use in this function)
+  accept_input(arr, n);
+               ^
+\end{ccode}
+
+编译报错了, Jerry 打算撤消 \texttt{array.c} 的修改:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn revert&\index{\svn!\svnrv}& array.c
+Reverted 'array.c'
+[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$
+\end{svnshell}
+
+再编译一次, 检查还有没有错误:
+\begin{svnshell}
+[jerry@CentOS trunk]$ gcc&\index{\svngcc}& -o array
+[jerry@CentOS trunk]$
 \end{svnshell}
 
 \printindex
