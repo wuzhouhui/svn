@@ -70,9 +70,8 @@
 \section{什么是版本控制系统}
 \label{sec:what_is_version_control_system}
 
-版本控制系统 (Version Control System\index{Version Control System (版本控制
-系统)}, 简称 VCS) 是一种软件, 它可以帮助软件开发人员协同工作, 以及管理产品的
-完整历史.
+版本控制系统 (Version Control System, 简称 VCS) 是一种软件, 它可以帮助软件开
+发人员协同工作, 以及管理产品的完整历史.
 
 版本控制系统的目标包括:
 \begin{itemize}
@@ -83,13 +82,11 @@
 
 VCS 可以分成两大类别:
 \begin{itemize}
-  \item 集中式的版本控制系统 (Centralized Version Control System\index{
-   Centralized Control System (集中式的版本控制系统)}, 简称 CVCS);
-  \item 分布式的版本控制系统 (Distributed Version Control System\index{
-   Distributed Version Control System (分布式的版本控制系统)}, 简称 DVCS).
+  \item 集中式的版本控制系统 (Centralized Version Control System, 简称 CVCS);
+  \item 分布式的版本控制系统 (Distributed Version Control System, 简称 DVCS).
 \end{itemize}
 
-本教程只讨论 CVCS, 特别是 Subversion\index{Subversion}, 它使用中央服务器来存
+本教程只讨论 CVCS, 特别是 Subversion, 它使用中央服务器来存
 储所有的文件, 并支持团队协作.
 
 \section{版本控制术语}
@@ -98,34 +95,34 @@ VCS 可以分成两大类别:
 首先先来介绍本教程将会用到的几个术语.
 
 \begin{itemize}
-  \item 仓库 (Repository\index{repository (仓库)}): 仓库是所有版本控制系统的
+  \item 仓库 (Repository): 仓库是所有版本控制系统的
       核心, 它是开发人员存放所有资料的中心目录. 除了文件, 仓库还会存放历史.
       仓库支持网络访问, 相当于一个服务器, 而版本控制工具则是客户端. 客户端可
       以连接仓库, 然后就可以向仓库提交修改, 或检索修改历史. 通过提交, 其他客
       户端就可以看到某个客户端作出的修改; 通过检查修改历史, 客户端就可以把其
       他人的修改作为工作副本.
 
-  \item 主干 (Trunk\index{trunk (主干)}): 主干是一个目录, 它是所有主要开发发
+  \item 主干 (Trunk): 主干是一个目录, 它是所有主要开发发
       生的地方, 通常会被开发人员检出, 以便进行项目开发.
 
-  \item 标签 (Tags\index{tags (标签)}): 标签是用于存放项目的命名快照的目录. 通
+  \item 标签 (Tags): 标签是用于存放项目的命名快照的目录. 通
       过标签, 开发人员可以给仓库的某个特定版本取一个描述性的, 易于记忆的名字.
 
       比如, \texttt{LAST\_STABLE\_CODE\_BEFORE\_EMAIL\_SUPPORT} 就比
       \texttt{Repository UUID: 7ceef8cb-3799-40dd-a067-c216ec2e5247} 和
       \texttt{Revision: 13} 容易记忆.
 
-  \item 分支 (Branches\index{branch (分支)}): 分支用来创建一条新的开发线. 如
+  \item 分支 (Branches): 分支用来创建一条新的开发线. 如
       果开发人员想要把开发过程分裂成两个方向, 就会用到该功能. 例如, 开发人员
       在发布了 5.0 版本后, 可能会创建一条新的分支, 专门用于开发 6.0 版本,
       这样的话, 6.0 的开发就不会与 5.0 的问题修复相互混淆.
 
-  \item 工作副本 (Working copy\index{working copy (工作副本)}): 工作副本是仓库
+  \item 工作副本 (Working copy): 工作副本是仓库
       的一个快照. 仓库被团队内的所有人共享, 但人们不能直接修改仓库, 解决办法是
       每个开发人员都从仓库中检出一份工作副本, 这个工作副本就是他的私有工作区,
       开发人员在工作副本中所做的工作并不会影响到团队中的其他人.
 
-  \item 提交修改 (Commit changes\index{commit changes (提交修改)}): 把私有工作
+  \item 提交修改 (Commit changes): 把私有工作
       区的修改存放到中央服务器的过程称为提交. 提交后, 团队中的其他人就可以看到
       别人作出的修改, 通过检索修改, 开发人员可以把修改更新到他们的工作副本中.
       提交是一个原子操作, 要么全部的修改提交成功, 要么全部失败, 不可能出现只
@@ -138,7 +135,7 @@ VCS 可以分成两大类别:
 \section{安装 SVN}
 \label{sec:svn_installation}
 
-Subversion\index{Subversion} 是一款流行的版本控制工具, 它是开源软件, 可以在
+Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
