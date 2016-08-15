@@ -17,6 +17,7 @@
 \newcommand\svngcc{\texttt{gcc}}
 \newcommand\svnrv{\texttt{revert}}
 \newcommand\svnpwd{\texttt{pwd}}
+\newcommand\svnmg{\texttt{merge}}
 
 \lstnewenvironment{svnshell}
   {
@@ -942,7 +943,20 @@ r4 | jerry | 2016-08-14 08:51:29 +0800 (Sun, 14 Aug 2016) | 1 line
 Add function to accept input and to display contents
 \end{svnshell}
 从日志中, Jerry 意识到他犯了一个严重的错误: Tom 已经实现了一个二分搜索, 它
-比线性搜索要好得多, 所以他添加的代码就变成多余的了.
+比线性搜索要好得多, 所以他添加的代码就变成多余的了. Jerry 决定撤消他的最后
+一次提交, 也就是把仓库回滚到修订号 5 所处的状态:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+Updating '.':
+At revision 6.
+[jerry@CentOS trunk]$ svn merge&\index{\svn!\svnmg}& -r 6:5 array.c
+--- Reverse-merging r6 into 'array.c':
+U    array.c
+--- Recording mergeinfo for reverse merge of r6 into 'array.c':
+ U   array.c
+--- Eliding mergeinfo from 'array.c':
+ U   array.c
+\end{svnshell}
 
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
