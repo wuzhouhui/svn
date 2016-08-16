@@ -18,6 +18,8 @@
 \newcommand\svnrv{\texttt{revert}}
 \newcommand\svnpwd{\texttt{pwd}}
 \newcommand\svnmg{\texttt{merge}}
+\newcommand\svncat{\texttt{cat}}
+\newcommand\svnadd{\texttt{add}}
 
 \lstnewenvironment{svnshell}
   {
@@ -960,6 +962,24 @@ U    array.c
 Sending        array.c
 Transmitting file data .
 Committed revision 7.
+\end{svnshell}
+
+\chapter{解决冲突}
+\label{chap:resolve_conflicts}
+
+Tom 决定为项目添加一个 \texttt{README} 文件, 文件包含了一个 \texttt{TODO}
+列表, 提交后, 仓库的修订号更新到 8:
+\begin{svnshell}
+[tom@CentOS trunk]$ cat&\index{\svncat}& README
+/* TODO: Add contents in README file */
+[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+?       README
+[tom@CentOS trunk]$ svn add&\index{\svn!\svnadd}& README
+A         README
+[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added README file. Will update it's content in future."
+Adding         README
+Transmitting file data .
+Committed revision 8.
 \end{svnshell}
 
 \backmatter
