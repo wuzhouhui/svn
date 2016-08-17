@@ -982,6 +982,55 @@ Transmitting file data .
 Committed revision 8.
 \end{svnshell}
 
+就在 Tom 提交后, Jerry 从仓库中检出了最新的代码, 然后开始自己的工作. 几个小时
+后, Tom 再一次更新并提交了 \texttt{README}:
+\begin{svnshell}
+[tom@CentOS trunk]$ cat&\index{\svncat}& README
+* Supported operations:
+
+1) Accept input
+2) Display array elements
+[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+M       README
+[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added supported operations in README"
+Sending        README
+Transmitting file data .
+Committed revision 9.
+\end{svnshell}
+
+此时, Jerry 检出的代码已经过时了. Jerry 也更新了 \texttt{README}, 并试图提交:
+\begin{svnshell}
+[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+* File list
+
+1) array.c Implementation of array operations.
+2) README  Instructions for user.
+[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+M       README
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Update README"
+Sending        README
+Transmitting file data .svn: E155011: Commit failed (details follow):
+svn: E155011: File '/home/dell/Documents/svn/jerry_project_repo/trunk/README' is out of date
+svn: E170004: Item '/trunk/README' is out of date
+\end{svnshell}
+
+\section{查看冲突}
+\label{sec:view_conflicts}
+
+Subversion 发现 \texttt{README} 已经过时了, 因此 Jerry 得先更新一下工作副本:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+Updating '.':
+C    README
+Updated to revision 9.
+Conflict discovered in file 'README'.
+Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
+        (mc) my side of conflict, (tc) their side of conflict,
+        (s) show all options: 
+\end{svnshell}
+在更新 \texttt{README} 时发生了冲突, Subversion 不知道如何处理这种情况, 于是,
+Jerry 输入 \texttt{df}
+
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
 \label{chap:ubuntu_install_subversion_server}
