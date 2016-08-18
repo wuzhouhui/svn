@@ -1029,7 +1029,47 @@ Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
         (s) show all options: 
 \end{svnshell}
 在更新 \texttt{README} 时发生了冲突, Subversion 不知道如何处理这种情况, 于是,
-Jerry 输入 \texttt{df}
+Jerry 输入 \texttt{df}, 查看发生冲突的内容:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+Updating '.':
+C    README
+Updated to revision 9.
+Conflict discovered in file 'README'.
+Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
+        (mc) my side of conflict, (tc) their side of conflict,
+        (s) show all options: df
+--- README.r9	- THEIRS
++++ README	- MERGED
+@@ -1,4 +1,11 @@
++<<<<<<< .mine
++* File list
++
++1) array.c Implementation of array operation.
++2) README  Instructions for user.
++=======
+ * Supported operations:
+ 
+ 1) Accept input
+ 2) Display array elements
++>>>>>>> .r9
+Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
+        (r) mark resolved, (mc) my side of conflict,
+        (tc) their side of conflict, (s) show all options:
+\end{svnshell}
+
+\section{推迟处理}
+\label{sec:postpone_conflicts}
+接下来, Jerry 选择推迟处理, 即选项 \texttt{p}:
+\begin{svnshell}
+Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
+        (r) mark resolved, (mc) my side of conflict,
+        (tc) their side of conflict, (s) show all options: p
+Summary of conflicts:
+  Text conflicts: 1
+\end{svnshell}
+
+
 
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
