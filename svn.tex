@@ -20,6 +20,7 @@
 \newcommand\svnmg{\texttt{merge}}
 \newcommand\svncat{\texttt{cat}}
 \newcommand\svnadd{\texttt{add}}
+\newcommand\svnrs{\texttt{resolve}}
 
 \lstnewenvironment{svnshell}
   {
@@ -1069,7 +1070,65 @@ Summary of conflicts:
   Text conflicts: 1
 \end{svnshell}
 
+用文本编辑器打开 \texttt{README}, 就可以看到文件同时包含了 Tom 的修改, 以及
+冲突标记:
+\begin{svnshell}
+[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+<<<<<<< .mine
+* File list
 
+1) array.c Implementation of array operation.
+2) README  Instructions for user.
+=======
+* Supported operations:
+
+1) Accept input
+2) Display array elements
+>>>>>>> .r9
+\end{svnshell}
+Jerry 希望同时保留他自己和 Tom 的修改, 所以他只要把冲突标记删除即可, 删除冲突
+标记后, \texttt{README} 的内容变成了:
+\begin{svnshell}
+[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+* File list
+
+1) array.c Implementation of array operation.
+2) README  Instructions for user.
+
+* Supported operations:
+
+1) Accept input
+2) Display array elements
+\end{svnshell}
+然后, Jerry 开始提交修改:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Updated README"
+svn: E155015: Commit failed (details follow):
+svn: E155015: Aborting commit: '/home/dell/Documents/svn/jerry_project_repo/trunk/README' remains in conflict
+[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+C       README
+?       README.mine
+?       README.r8
+?       README.r9
+Summary of conflicts:
+  Text conflicts: 1
+\end{svnshell}
+
+\section{解决冲突}
+\label{sec:resolve_conflicts}
+在上面的提交中, 文件名左边的 \texttt{C} 表示该文件还有冲突未被处理. Jerry
+虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
+来告诉 Subversion 冲突的处理结果:
+\begin{svnshell}
+[jerry@CentOS trunk]$ svn resolve&\index{\svn!\svnrs}& --accept=working README
+Resolved conflicted state of 'README'
+[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+M       README
+[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Updated README"
+Sending        README
+Transmitting file data .
+Committed revision 10.
+\end{svnshell}
 
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
