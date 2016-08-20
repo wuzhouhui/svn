@@ -1164,6 +1164,103 @@ Adding         tags/basic_array_operations
 Committed revision 11.
 \end{svnshell}
 
+\chapter{分支}
+\label{chap:branching}
+
+分支用来创建一条新的开发线, 如果开发人员想让开发过程朝着两个不同的方向发展,
+这时候就会用到分支. 比如说, 现在已经发布了版本 1.0, 这时候你可能想创建一条
+新的分支, 用于版本 2.0 的开发, 这样的话, 版本 1.0 的问题修复就不会和 2.0 的
+开发相混淆.
+
+在这一章, 我们将会介绍如何创建, % FIXME: traverse
+合并分支.
+
+Jerry 常常被冲突搞得很不开心, 所以他决定创建一条自己的开发分支:
+\begin{svnshell}
+[jerry@CentOS project_repo]$ ls&\index{\svnls}&
+branches
+tags
+trunk
+[jerry@CentOS project_repo]$ svn copy&\index{\svn!\svncp}& trunk branches/jerry_branche
+A         branches/jerry_branch
+[jerry@CentOS project_repo]$ svn status&\index{\svn!\svnst}&
+A  +    branches/jerry_branch
+[jerry@CentOS project_repo]$ svn commit&\index{\svn!\svnci}& -m "Jerry's private branche"
+Adding         branches/jerry_branch
+
+Committed revision 12.
+\end{svnshell}
+
+现在, Jerry 就可以安全地在自己的分支里开发了. 他在 \texttt{array.c} 里添加了
+排序操作, 修改后的 \texttt{array.c} 的内容是:
+\begin{ccode}
+[jerry@CentOS jerry_branch]$ cat`\index{\svncat}` array.c
+#include <stdio.h>
+
+#define MAX 16
+
+void bubble_sort(int *arr, int n)
+{
+	int i, j, temp, flag = 1;
+
+	for (i = 1; i < n && flag == 1; i++) {
+		flag = 0;
+		for (j = 0; j < n - i; j++) {
+			if (arr[j] > arr[j + 1]) {
+				flag = 1;
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+}
+
+void accept_input(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &arr[i]);
+}
+
+void display(int *arr, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+		printf("|%d| ", arr[i]);
+
+	printf("\n");
+}
+
+int main(void)
+{
+	int i, n, arr[MAX];
+
+	printf("Enter the total number of elements: ");
+	scanf("%d", &n);
+
+	/* handle array overflow condition */
+	if (n > MAX) {
+		fprintf(stderr, "Number of elements must be less than %d\n", MAX);
+		return 1;
+	}
+
+	printf("Enter the elements\n");
+	accept_input(arr, n);
+
+	printf("Array has folloing elements\n");
+	display(arr, n);
+
+	printf("Sorted data is\n");
+	bubble_sort(arr, n);
+	display(arr, n);
+
+	return 0;
+}
+\end{ccode}
+
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
 \label{chap:ubuntu_install_subversion_server}
