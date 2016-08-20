@@ -22,7 +22,10 @@
 \newcommand\svnadd{\texttt{add}}
 \newcommand\svnrs{\texttt{resolve}}
 \newcommand\svncp{\texttt{copy}}
+\newcommand\svnim{\texttt{import}}
+\newcommand\svninfo{\texttt{info}}
 \newcommand\svnls{\texttt{ls}}
+\newcommand\svnadmin{\texttt{svnadmin}}
 
 \hypersetup {
     bookmarksnumbered = true,
@@ -151,38 +154,38 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
 \end{svnshell}
 如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
 的话, 就会输出一条错误信息:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
 -bash: svn: command not found
 \end{svnshell}
 
 如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
-\shellcmd{yum}\index{\texttt{yum}}
+\shellcmd{yum}\index{yum@\texttt{yum}}
 来安装
 Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
-[jerry@CentOS ~]# yum install subversion&\index{\texttt{yum}!\texttt{install}}&
+[jerry@CentOS ~]# yum install subversion&\index{yum@\texttt{yum}!install@\texttt{install}}&
 
-[jerry@CentOS ~]$ svn --version&\index{\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
 svn, version 1.6.11 (r934486)
 compiled Jun 23 2012, 00:44:03
 \end{svnshell}
 
 如果是 Debian 系列的 GNU/Linux 发行版, 就用命令
-\shellcmd{apt}\index{\texttt{apt}} 安装:
+\shellcmd{apt}\index{apt@\texttt{apt}} 安装:
 \begin{svnshell}
-    [jerry@Ubuntu]$ sudo apt-get update&\index{\texttt{apt}!\texttt{update}}&
+    [jerry@Ubuntu]$ sudo apt-get update&\index{apt@\texttt{apt}!\texttt{update}}&
 [sudo] password for jerry:
 
-[jerry@Ubuntu]$ sudo apt-get install subversion&\index{\texttt{apt}!\texttt{install}}&
+[jerry@Ubuntu]$ sudo apt-get install subversion&\index{apt@\texttt{apt}!\texttt{install}}&
 
-[jerry@Ubuntu]$ svn --version&\index{\svn!\texttt{--version}}&
+[jerry@Ubuntu]$ svn --version&\index{svn@\svn!\texttt{--version}}&
 svn, version 1.7.5 (r1336830)
 compiled Jun 21 2013, 22:11:49
 \end{svnshell}
@@ -193,19 +196,19 @@ compiled Jun 21 2013, 22:11:49
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
 一个新的仓库, 并设置访问权限.
 
-在服务器端, 我们需要安装 Apache \shellcmd{httpd}\index{\texttt{httpd}} 模块和
-\shellcmd{svnadmin}\index{\texttt{svnadmin}} 工具:
+在服务器端, 我们需要安装 Apache \shellcmd{httpd}\index{httpd@\texttt{httpd}} 模块和
+\shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具:
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
 Password:
-[root@CentOS ~]# yum install&\index{\texttt{yum}!\texttt{install}}& mod_dav_svn subversion
+[root@CentOS ~]# yum install&\index{yum@\texttt{yum}!install@\texttt{install}}& mod_dav_svn subversion
 \end{svnshell}
-安装了软件包 \texttt{mod\_dav\_svn}\index{\texttt{mod\_dav\_svn}} 之后, 用户就
+安装了软件包 \texttt{mod\_dav\_svn}\index{mod\_dav\_svn@\texttt{mod\_dav\_svn}} 之后, 用户就
 可以用 HTTP 来访问仓库, 软件包
 \texttt{subversion} 包含了
-\shellcmd{svnadmin}\index{\texttt{svnadmin}} 工具.
+\shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具.
 
-\texttt{/etc/httpd/conf.d/subversion.conf}\index{\texttt{subversion.conf}} 是 Subversion
+\texttt{/etc/httpd/conf.d/subversion.conf}\index{subversion.conf@\texttt{subversion.conf}} 是 Subversion
 的配置文件, 该文件的典型内容如下:
 \begin{svnshell}
 LoadModule dav_svn_module   modules/mod_dav_svn.so
@@ -222,7 +225,7 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 \end{svnshell}
 
 现在我们开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
-\shellcmd{htpasswd}\index{\texttt{htpasswd}} 用于创建和更新纯文本文件,
+\shellcmd{htpasswd}\index{htpasswd@\texttt{htpasswd}} 用于创建和更新纯文本文件,
 这些文件中存放
 着用户名和密码. 如果指定了选项 \shellcmd{-c}, 则命令会创建一个密码文件, 如果
 密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
@@ -230,7 +233,7 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 
 假设现在我们要创建用户 \texttt{tom}:
 \begin{svnshell}
-[root@CentOS ~]# htpasswd&\index{\shellcmd{htpasswd}}& -cm /etc/svn-users tom
+[root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -cm /etc/svn-users tom
 New password:
 Re-type new password:
 Adding password for user tom
@@ -238,28 +241,28 @@ Adding password for user tom
 
 再创建一个用户 \texttt{jerry}:
 \begin{svnshell}
-[root@CentOS ~]# htpasswd&\index{\shellcmd{htpasswd}}& -cm /etc/svn-users jerry
+[root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -cm /etc/svn-users jerry
 New password:
 Re-type new password:
 Adding password for user jerry
 \end{svnshell}
 
 创建 Subversion 父目录, 用于存放所有的工作  (见
-\texttt{/etc/httpd/conf.d/subversion.conf}\index{\texttt{subversion.conf}}):
+\texttt{/etc/httpd/conf.d/subversion.conf}\index{subversion.conf@\texttt{subversion.conf}}):
 \begin{svnshell}
-[root@CentOS ~]# mkdir&\index{\shellcmd{mkdir}}& -p /var/www/svn
+[root@CentOS ~]# mkdir&\index{mkdir@\texttt{mkdir}}& -p /var/www/svn
 \end{svnshell}
 
 \section{设置仓库}
 \label{sec:repository_setup}
 现在让我们来创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
-\shellcmd{svnadmin}\index{\texttt{svnadmin}} 在创建一个新的仓库时, 会在其中
+\shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
 创建几个目录, 用于存放元数据:
 \begin{svnshell}
-[root@CentOS svn]# pwd&\index{\svnpwd}&
+[root@CentOS svn]# pwd&\index{pwd@\svnpwd}&
 /var/www/svn
-[root@CentOS svn]# svnadmin&\index{\texttt{svnadmin}}& create&\index{\texttt{svnadmin}!\texttt{create}}& project_repo
-[root@CentOS svn]# ls&\index{\texttt{ls}}& -l project_repo
+[root@CentOS svn]# svnadmin&\index{svnadmin@\svnadmin}& create&\index{svnadmin@\svnadmin!create@\texttt{create}}& project_repo
+[root@CentOS svn]# ls&\index{ls@\svnls}& -l project_repo
 total 24
 drwxr-xr-x. 2 root root 4096 Aug  4 22:30 conf
 drwxr-xr-x. 6 root root 4096 Aug  4 22:30 db
@@ -270,7 +273,7 @@ drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
 \end{svnshell}
 然后, 我们要修改仓库目录的用户与用户组:
 \begin{svnshell}
-[root@CentOS svn]# chown&\index{\texttt{chown}}& -R apache.apache project_repo/
+[root@CentOS svn]# chown&\index{chown@\texttt{chown}}& -R apache.apache project_repo/
 \end{svnshell}
 查看 SELinux\index{SELinux} 是否开启:
 \begin{svnshell}
@@ -306,7 +309,7 @@ httpd (pid 1372) is running...
 
 接下来, 我们需要对仓库进行配置. 为了实现只有授权的用户才能访问仓库, 并且使用
 默认的授权文件, 就把下面几行添加到
-\texttt{project\_repo/conf/svnserve.conf}\index{\texttt{svnserve.conf}}
+\texttt{project\_repo/conf/svnserve.conf}\index{svnserve.conf@\texttt{svnserve.conf}}
 文件中.
 \begin{svnshell}
 anon-access = none
@@ -316,22 +319,22 @@ authz-db = authz
 传统上, 每一个仓库下面都有 \texttt{trunk}, \texttt{tags} 和 \texttt{branches}
 这三个目录.
 
-目录 \texttt{trunk}\index{\texttt{trunk}} 是主要开发发生的地方, 通常会被开发
+目录 \texttt{trunk} 是主要开发发生的地方, 通常会被开发
 人员检出, 以便进行项目开发.
 
-目录 \texttt{tags}\index{\texttt{tags}} 用于存放项目的命名快照. 当需要发布
+目录 \texttt{tags} 用于存放项目的命名快照. 当需要发布
 一个产品版本时, 团队就会给代码打一个标签, 然后存放到这个目录中并发布.
 
-目录 \texttt{branches}\index{\texttt{branches}} 用于存放不同的开发线.
+目录 \texttt{branches} 用于存放不同的开发线.
 
 现在, 我们就要在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
 这三个目录:
 \begin{svnshell}
-[root@CentOS svn]# mkdir&\index{\texttt{mkdir}}& /tmp/svn-template
+[root@CentOS svn]# mkdir&\index{mkdir@\texttt{mkdir}}& /tmp/svn-template
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{\svn!\texttt{import}}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
+[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
 Adding              /tmp/svn-template/trunk
 Adding              /tmp/svn-template/branches
 Adding              /tmp/svn-template/tags
@@ -441,7 +444,7 @@ Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副�
 感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
-[tom@CentOS ~]$ svn checkout&\index{\svn!\svnco}& http://svn.server.com/svn/project_repo --username=tom
+[tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://svn.server.com/svn/project_repo --username=tom
 A	project_repo/trunk
 A	project_repo/branches
 A	project_repo/tags
@@ -451,9 +454,9 @@ Checked out revision 1.
 如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息, 可以使用
 命令 \texttt{info}:
 \begin{svnshell}
-[tom@CentOS trunk]$ pwd&\index{\svnpwd}&
+[tom@CentOS trunk]$ pwd&\index{pwd@\svnpwd}&
 /home/tom/project_repo/trunk
-[tom@CentOS trunk]$ svn info&\index{\svn!\texttt{info}}&
+[tom@CentOS trunk]$ svn info&\index{svn@\svn!\svninfo}&
 Path: .
 URL: http://svn.server.com/svn/project_repo/trunk
 Repository Root: http://svn.server.com/svn/project_repo
@@ -474,7 +477,7 @@ Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
 录内创建了一个 \texttt{array.c} 文件:
 \begin{ccode}
 [jerry@CentOS ~]$ cd project_repo/trunk/
-[jerry@CentOS trunk]$ cat`\index{\texttt{cat}}` array.c
+[jerry@CentOS trunk]$ cat`\index{cat@\svncat}` array.c
 #include <stdio.h>
 
 #define MAX 16
@@ -519,7 +522,7 @@ Array has following elements
 编译和运行看来都没什么问题, 现在他准备提交代码.
 
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 ?	array.c
 ?	array
 \end{svnshell}
@@ -528,13 +531,13 @@ Array has following elements
 
 在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn add&\index{\svn!\texttt{add}}& array.c
+[jerry@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& array.c
 A	array.c
 \end{svnshell}
 
 现在让我们再检查一下工作副本的状态:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn status&\index{\svn!\texttt{status}}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 ?	array
 A	array.c
 \end{svnshell}
@@ -546,7 +549,7 @@ A	array.c
 \texttt{-m}, subversion 就会自动打开一个文本编辑器, 开发人员也可以在编辑器中
 写提交信息:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Initial commit"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Initial commit"
 Adding		trunk/array.c
 Transmitting file data .
 Committed revision 2.
@@ -559,7 +562,7 @@ Committed revision 2.
 Jerry 把 \texttt{array.c} 提交到仓库后, Tom 从仓库中检出了最新的代码, 然后
 开始工作:
 \begin{svnshell}
-[tom@CentOS ~]$ svn co&\index{\svn!\svnco}& http://svn.server.conm/svn/project_repo --username=tom
+[tom@CentOS ~]$ svn co&\index{svn@\svn!\svnco}& http://svn.server.conm/svn/project_repo --username=tom
 A    project_repo/tags
 A    project_repo/trunk
 A    project_repo/branches
@@ -570,7 +573,7 @@ Checked out revision 2.
 Tom 发现已经有人往仓库中提交了代码, 他很好奇这些代码是谁提交上去的, 于是, 他
 执行下面的命令来查看提交历史:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+[tom@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
 r2 | jerry | 2016-08-13 13:28:07 +0800 (Sat, 13 Aug 2016) | 1 line
 
@@ -620,14 +623,14 @@ int main(void)
 \end{ccode}
 执行状态命令, 查看未决的修改列表:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[tom@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
 \end{svnshell}
 因为 \texttt{array.c} 的内容发生了变化, 因此它的左边会显示一个 \texttt{M}.
 Tom 编译并运行程序后, 觉得没什么问题, 但是在提交前, 他还想再检查一下代码发生
 了哪些变化:
 \begin{ccode}
-[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 2)
@@ -648,7 +651,7 @@ Index: array.c
 \end{ccode}
 左边的 \texttt{+} 表示这是新增的行. 检查没问题后, 接下来就可以提交了:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Fix array overflow problem"
+[tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Fix array overflow problem"
 Sending        array.c
 Transmitting file data .
 Committed revision 3.
@@ -703,7 +706,7 @@ int main(void)
 编译并简单地测试后, Jerry 准备提交代码, 但是在提交前, 他想要审核一下代码的
 修改:
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 2)
@@ -755,7 +758,7 @@ Index: array.c
 新增的行, 其左边用 \texttt{+} 标记, 被删除的行则用 \texttt{-}. 现在 Jerry
 试图向仓库中提交代码:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Add function to accept input and to display array contents"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Add function to accept input and to display array contents"
 \end{svnshell}
 结果命令输出:
 \begin{svnshell}
@@ -769,7 +772,7 @@ svn: E170004: Item '/trunk/array.c' is out of date
 这时候 Subversion 会禁止 Jerry 提交修改, 否则的话, 其他人的修改可能会被覆盖
 掉. 为了提交成功, Jerry 必须先更新工作副本:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn update&\index{\svn!\svnup}&
+[jerry@CentOS trunk]$ svn update&\index{svn@\svn!\svnup}&
 Updating '.':
 G    trunk/array.c
 Updated to revision 3.
@@ -777,7 +780,7 @@ Updated to revision 3.
 文件名左边的 \texttt{G} 表示该文件被合并了.
 
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 3)
@@ -830,7 +833,7 @@ Index: array.c
 可能会发现输出中的修订号变成了 3, 而在上一次的 \texttt{svn diff} 输出中, 修订
 号是 2. 再查看一下是谁修改了代码:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+[jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
 r3 | tom | 2016-08-13 16:35:55 +0800 (Sat, 13 Aug 2016) | 1 line
 
@@ -849,7 +852,7 @@ Create trunk, branches, tags directory structure.
 
 工作副本更新后, 现在就可以安全地向仓库提交代码了:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Add function to accept input and to display array contents"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Add function to accept input and to display array contents"
 Sending        array.c
 Transmitting file data .
 Committed revision 4.
@@ -863,12 +866,12 @@ Committed revision 4.
 或目录的修改, 除此之外, 它还可以用来解决冲突.
 
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
 \end{svnshell}
 \texttt{array.c} 被修改了, 如果我们试图编译它的话:
 \begin{ccode}
-[jerry@CentOS trunk]$ gcc`\index{\svngcc}` array.c -o array
+[jerry@CentOS trunk]$ gcc`\index{gcc@\svngcc}` array.c -o array
 array.c: In function ‘main’:
 array.c:28:15: error: ‘n’ undeclared (first use in this function)
   scanf("%d", &n);
@@ -881,24 +884,24 @@ array.c:37:15: error: ‘arr’ undeclared (first use in this function)
 
 编译报错了, Jerry 打算撤消 \texttt{array.c} 的修改:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn revert&\index{\svn!\svnrv}& array.c
+[jerry@CentOS trunk]$ svn revert&\index{svn@\svn!\svnrv}& array.c
 Reverted 'array.c'
-[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 [jerry@CentOS trunk]$
 \end{svnshell}
 
 再编译一次, 检查还有没有错误:
 \begin{svnshell}
-[jerry@CentOS trunk]$ gcc&\index{\svngcc}& -o array
+[jerry@CentOS trunk]$ gcc&\index{gcc@\svngcc}& -o array
 [jerry@CentOS trunk]$
 \end{svnshell}
 
 撤消修改后, 工作副本恢复到了修改前的状态. 操作 revert 不仅可以回滚一个文件, 还
 可以针对整个目录进行回滚. 回滚目录时, 需要带上参数 \texttt{-R}:
 \begin{svnshell}
-[jerry@CentOS project_repo]$ pwd&\index{\svnpwd}&
+[jerry@CentOS project_repo]$ pwd&\index{pwd@\svnpwd}&
 /home/jerry/project_repo
-[jerry@CentOS project_repo]$ svn revert&\index{\svn!\svnrv}& -R trunk
+[jerry@CentOS project_repo]$ svn revert&\index{svn@\svn!\svnrv}& -R trunk
 \end{svnshell}
 
 到现在为止, 我们已经介绍了如何撤消工作副本中未提交的修改, 但是, 如果修改已经
@@ -909,7 +912,7 @@ Reverted 'array.c'
 假设 Jerry 为 \texttt{array.c} 定义了一个新函数, 用于线性搜索, 审核后, 他提交
 了代码:
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 5)
@@ -931,9 +934,9 @@ Index: array.c
  static int cmp(const void *a, const void *b)
  {
  	return(*(int *)a - *(int *)b);
-[jerry@CentOS trunk]$ svn status`\index{\svn!\svnst}`
+[jerry@CentOS trunk]$ svn status`\index{svn@\svn!status@\svnst}`
 M       array.c
-[jerry@CentOS trunk]$ svn commit`\index{\svn!\svnci}` -m "Added code for linear
+[jerry@CentOS trunk]$ svn commit`\index{svn@\svn!commit@\svnci}` -m "Added code for linear
 search"
 Sending        array.c
 Transmitting file data .
@@ -942,7 +945,7 @@ Committed revision 6.
 
 Jerry 想知道 Tom 向仓库提交了哪些代码:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+[jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
 r5 | tom | 2016-08-14 17:30:06 +0800 (Sun, 14 Aug 2016) | 1 line
 
@@ -956,17 +959,17 @@ Add function to accept input and to display contents
 比线性搜索要好得多, 所以他添加的代码就变成多余的了. Jerry 决定撤消他的最后
 一次提交, 也就是把仓库回滚到修订号 5 所处的状态:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
 Updating '.':
 At revision 6.
-[jerry@CentOS trunk]$ svn merge&\index{\svn!\svnmg}& -r 6:5 array.c
+[jerry@CentOS trunk]$ svn merge&\index{svn@\svn!\svnmg}& -r 6:5 array.c
 --- Reverse-merging r6 into 'array.c':
 U    array.c
 --- Recording mergeinfo for reverse merge of r6 into 'array.c':
  U   array.c
 --- Eliding mergeinfo from 'array.c':
  U   array.c
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Reverted to revision 5"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Reverted to revision 5"
 Sending        array.c
 Transmitting file data .
 Committed revision 7.
@@ -978,13 +981,13 @@ Committed revision 7.
 Tom 决定为项目添加一个 \texttt{README} 文件, 文件包含了一个 \texttt{TODO}
 列表, 提交后, 仓库的修订号更新到 8:
 \begin{svnshell}
-[tom@CentOS trunk]$ cat&\index{\svncat}& README
+[tom@CentOS trunk]$ cat&\index{cat@\svncat}& README
 /* TODO: Add contents in README file */
-[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[tom@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 ?       README
-[tom@CentOS trunk]$ svn add&\index{\svn!\svnadd}& README
+[tom@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& README
 A         README
-[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added README file. Will update it's content in future."
+[tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Added README file. Will update it's content in future."
 Adding         README
 Transmitting file data .
 Committed revision 8.
@@ -993,14 +996,14 @@ Committed revision 8.
 就在 Tom 提交后, Jerry 从仓库中检出了最新的代码, 然后开始自己的工作. 几个小时
 后, Tom 再一次更新并提交了 \texttt{README}:
 \begin{svnshell}
-[tom@CentOS trunk]$ cat&\index{\svncat}& README
+[tom@CentOS trunk]$ cat&\index{cat@\svncat}& README
 * Supported operations:
 
 1) Accept input
 2) Display array elements
-[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[tom@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       README
-[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added supported operations in README"
+[tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Added supported operations in README"
 Sending        README
 Transmitting file data .
 Committed revision 9.
@@ -1008,14 +1011,14 @@ Committed revision 9.
 
 此时, Jerry 检出的代码已经过时了. Jerry 也更新了 \texttt{README}, 并试图提交:
 \begin{svnshell}
-[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+[jerry@CentOS trunk]$ cat&\index{cat@\svncat}& README
 * File list
 
 1) array.c Implementation of array operations.
 2) README  Instructions for user.
-[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       README
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Update README"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Update README"
 Sending        README
 Transmitting file data .svn: E155011: Commit failed (details follow):
 svn: E155011: File '/home/dell/Documents/svn/jerry_project_repo/trunk/README' is out of date
@@ -1027,7 +1030,7 @@ svn: E170004: Item '/trunk/README' is out of date
 
 Subversion 发现 \texttt{README} 已经过时了, 因此 Jerry 得先更新一下工作副本:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
 Updating '.':
 C    README
 Updated to revision 9.
@@ -1039,7 +1042,7 @@ Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
 在更新 \texttt{README} 时发生了冲突, Subversion 不知道如何处理这种情况, 于是,
 Jerry 输入 \texttt{df}, 查看发生冲突的内容:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
 Updating '.':
 C    README
 Updated to revision 9.
@@ -1080,7 +1083,7 @@ Summary of conflicts:
 用文本编辑器打开 \texttt{README}, 就可以看到文件同时包含了 Tom 的修改, 以及
 冲突标记:
 \begin{svnshell}
-[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+[jerry@CentOS trunk]$ cat&\index{cat@\svncat}& README
 <<<<<<< .mine
 * File list
 
@@ -1096,7 +1099,7 @@ Summary of conflicts:
 Jerry 希望同时保留他自己和 Tom 的修改, 所以他只要把冲突标记删除即可, 删除冲突
 标记后, \texttt{README} 的内容变成了:
 \begin{svnshell}
-[jerry@CentOS trunk]$ cat&\index{\svncat}& README
+[jerry@CentOS trunk]$ cat&\index{cat@\svncat}& README
 * File list
 
 1) array.c Implementation of array operation.
@@ -1109,10 +1112,10 @@ Jerry 希望同时保留他自己和 Tom 的修改, 所以他只要把冲突标�
 \end{svnshell}
 然后, Jerry 开始提交修改:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Updated README"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Updated README"
 svn: E155015: Commit failed (details follow):
 svn: E155015: Aborting commit: '/home/dell/Documents/svn/jerry_project_repo/trunk/README' remains in conflict
-[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 C       README
 ?       README.mine
 ?       README.r8
@@ -1127,11 +1130,11 @@ Summary of conflicts:
 虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
 来告诉 Subversion 冲突的处理结果:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn resolve&\index{\svn!\svnrs}& --accept=working README
+[jerry@CentOS trunk]$ svn resolve&\index{svn@\svn!\svnrs}& --accept=working README
 Resolved conflicted state of 'README'
-[jerry@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       README
-[jerry@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Updated README"
+[jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Updated README"
 Sending        README
 Transmitting file data .
 Committed revision 10.
@@ -1145,7 +1148,7 @@ Committed revision 10.
 
 Tom 打算为修订号 4 的代码创建一个标签, 这样他就能更方便地访问代码:
 \begin{svnshell}
-[tom@CentOS project_repo]$ svn copy&\index{\svn!\svncp}& -r 4 trunk/ tags/basic_array_operations
+[tom@CentOS project_repo]$ svn copy&\index{svn@\svn!\svncp}& -r 4 trunk/ tags/basic_array_operations
 Updating 'tags/basic_array_operations':
 A    tags/basic_array_operations/array.c
 Updated to revision 4.
@@ -1154,16 +1157,16 @@ A         tags/basic_array_operations
 
 执行成功后, 在 \texttt{tags} 下就会出现一个新目录:
 \begin{svnshell}
-[tom@CentOS project_repo]$ ls&\index{\svnls}& -l tags/
+[tom@CentOS project_repo]$ ls&\index{ls@\svnls}& -l tags/
 total 4
 drwxrwxr-x 2 tom tom 4096 Aug 20 09:16 basic_array_operations
 \end{svnshell}
 
 检查一下, 如果没什么问题, 就可以提交了:
 \begin{svnshell}
-[tom@CentOS project_repo]$ svn status&\index{\svn!\svnst}&
+[tom@CentOS project_repo]$ svn status&\index{svn@\svn!status@\svnst}&
 A  +    tags/basic_array_operations
-[tom@CentOS project_repo]$ svn commit&\index{\svn!\svnci}& -m "Created tag for basic array operations"
+[tom@CentOS project_repo]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Created tag for basic array operations"
 Adding         tags/basic_array_operations
 
 Committed revision 11.
@@ -1182,15 +1185,15 @@ Committed revision 11.
 
 Jerry 常常被冲突搞得很不开心, 所以他决定创建一条自己的开发分支:
 \begin{svnshell}
-[jerry@CentOS project_repo]$ ls&\index{\svnls}&
+[jerry@CentOS project_repo]$ ls&\index{ls@\svnls}&
 branches
 tags
 trunk
-[jerry@CentOS project_repo]$ svn copy&\index{\svn!\svncp}& trunk branches/jerry_branche
+[jerry@CentOS project_repo]$ svn copy&\index{svn@\svn!\svncp}& trunk branches/jerry_branche
 A         branches/jerry_branch
-[jerry@CentOS project_repo]$ svn status&\index{\svn!\svnst}&
+[jerry@CentOS project_repo]$ svn status&\index{svn@\svn!status@\svnst}&
 A  +    branches/jerry_branch
-[jerry@CentOS project_repo]$ svn commit&\index{\svn!\svnci}& -m "Jerry's private branche"
+[jerry@CentOS project_repo]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Jerry's private branche"
 Adding         branches/jerry_branch
 
 Committed revision 12.
@@ -1199,7 +1202,7 @@ Committed revision 12.
 现在, Jerry 就可以安全地在自己的分支里开发了. 他在 \texttt{array.c} 里添加了
 排序操作, 修改后的 \texttt{array.c} 的内容是:
 \begin{ccode}
-[jerry@CentOS jerry_branch]$ cat`\index{\svncat}` array.c
+[jerry@CentOS jerry_branch]$ cat`\index{cat@\svncat}` array.c
 #include <stdio.h>
 
 #define MAX 16
@@ -1268,9 +1271,9 @@ int main(void)
 
 简单的测试后, Jerry 准备提交修改:
 \begin{svnshell}
-[jerry@CentOS jerry_branch]$ svn status&\index{\svnst}&
+[jerry@CentOS jerry_branch]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
-[jerry@CentOS jerry_branch]$ svn commit&\index{\svnci}& -m "Added sort operation"
+[jerry@CentOS jerry_branch]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Added sort operation"
 Sending        array.c
 Transmitting file data .
 Committed revision 13.
@@ -1278,7 +1281,7 @@ Committed revision 13.
 
 同时, 在主干上, Tom 为 \texttt{array.c} 定义了一个新函数, 用于实现二分查找:
 \begin{ccode}
-[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 14)
@@ -1339,9 +1342,9 @@ Index: array.c
 \end{ccode}
 简单的测试后, Tom 提交了修改:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+[tom@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
-[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added search operation"
+[tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Added search operation"
 Sending        array.c
 Transmitting file data .
 Committed revision 15.
@@ -1350,13 +1353,13 @@ Committed revision 15.
 Tom 想知道 Jerry 提交了哪些修改:
 \begin{svnshell}
 [tom@CentOS trunk]$ cd ../branches/
-[tom@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+[tom@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
 Updating '.':
 A    jerry_branch
 A    jerry_branch/README
 A    jerry_branch/array.c
 Updated to revision 15.
-[tom@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+[tom@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
 r13 | jerry | 2016-08-20 13:01:52 +0800 (Sat, 20 Aug 2016) | 1 line
 
@@ -1366,14 +1369,14 @@ Added sort operation
 从提交历史中可以看到, Jerry 实现了排序操作. Tom 添加的二分搜索操作只能应用
 在有序的数据上, 所以 Tom 决定把 Jerry 的分支合并到主干上:
 \begin{ccode}
-[tom@CentOS trunk]$ svn pwd`\index{\svn!\svnpwd}`
+[tom@CentOS trunk]$ svn pwd`\index{pwd@\svnpwd}`
 /home/dell/Documents/svn/tom_project_repo/trunk
-[tom@CentOS trunk]$ svn merge`\index{\svn!\svnmg}` ../branches/jerry_branch
+[tom@CentOS trunk]$ svn merge`\index{svn@\svn!\svnmg}` ../branches/jerry_branch
 --- Merging r12 through r15 into '.':
 U    array.c
 --- Recording mergeinfo for merge of r12 through r15 into '.':
  U   .
-[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 15)
@@ -1426,7 +1429,7 @@ Added: svn:mergeinfo
 
 现在可以提交了:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Merge changes from Jerrys's code"
+[tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Merge changes from Jerrys's code"
 Sending        .
 Sending        array.c
 Transmitting file data .
@@ -1454,7 +1457,7 @@ Committed revision 16.
 
   \item 更新仓库的用户与用户组, 否则的话, Apache 就无法正常地访问它:
 \begin{svnshell}
-~$ sudo chown -R www-data:www-data /svn/repos/testrepo
+~$ sudo chown&\index{chown@\texttt{chown}} -R www-data:www-data /svn/repos/testrepo
 \end{svnshell}
 
   \item 在 Apache 的配置文件目录中, 为 Subversion 创建一个配置文件, 文件的
