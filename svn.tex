@@ -21,6 +21,8 @@
 \newcommand\svncat{\texttt{cat}}
 \newcommand\svnadd{\texttt{add}}
 \newcommand\svnrs{\texttt{resolve}}
+\newcommand\svncp{\texttt{copy}}
+\newcommand\svnls{\texttt{ls}}
 
 \lstnewenvironment{svnshell}
   {
@@ -1128,6 +1130,38 @@ M       README
 Sending        README
 Transmitting file data .
 Committed revision 10.
+\end{svnshell}
+
+\chapter{标签}
+\label{chap:tags}
+
+版本控制系统支持标签操作, 打标签指的是给代码的某个特定版本取一个有意义的名
+字, 例如, \texttt{BASIC\_ARRAY\_OPERATIONS} 比 修订号 4 更容易记住.
+
+Tom 打算为修订号 4 的代码创建一个标签, 这样他就能更方便地访问代码:
+\begin{svnshell}
+[tom@CentOS project_repo]$ svn copy&\index{\svn!\svncp}& -r 4 trunk/ tags/basic_array_operations
+Updating 'tags/basic_array_operations':
+A    tags/basic_array_operations/array.c
+Updated to revision 4.
+A         tags/basic_array_operations
+\end{svnshell}
+
+执行成功后, 在 \texttt{tags} 下就会出现一个新目录:
+\begin{svnshell}
+[tom@CentOS project_repo]$ ls&\index{\svnls}& -l tags/
+total 4
+drwxrwxr-x 2 tom tom 4096 Aug 20 09:16 basic_array_operations
+\end{svnshell}
+
+检查一下, 如果没什么问题, 就可以提交了:
+\begin{svnshell}
+[tom@CentOS project_repo]$ svn status&\index{\svn!\svnst}&
+A  +    tags/basic_array_operations
+[tom@CentOS project_repo]$ svn commit&\index{\svn!\svnci}& -m "Created tag for basic array operations"
+Adding         tags/basic_array_operations
+
+Committed revision 11.
 \end{svnshell}
 
 \backmatter
