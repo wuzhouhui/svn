@@ -1261,6 +1261,173 @@ int main(void)
 }
 \end{ccode}
 
+简单的测试后, Jerry 准备提交修改:
+\begin{svnshell}
+[jerry@CentOS jerry_branch]$ svn status&\index{\svnst}&
+M       array.c
+[jerry@CentOS jerry_branch]$ svn commit&\index{\svnci}& -m "Added sort operation"
+Sending        array.c
+Transmitting file data .
+Committed revision 13.
+\end{svnshell}
+
+同时, 在主干上, Tom 为 \texttt{array.c} 定义了一个新函数, 用于实现二分查找:
+\begin{ccode}
+[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 14)
++++ array.c	(working copy)
+@@ -2,6 +2,27 @@
+ 
+ #define MAX 16
+ 
++int bin_search(int *arr, int n, int key)
++{
++	int low, high, mid;
++
++	low = 0;
++	high = n - 1;
++	mid = low + (high - low) / 2;
++
++	while (low <= high) {
++		if (arr[mid] == key)
++			return mid;
++		if (arr[mid] > key)
++			high = mid - 1;
++		else
++			low = mid + 1;
++		mid = low + (high - low) / 2;
++	}
++
++	return -1;
++}
++
+ void accept_input(int *arr, int n)
+ {
+ 	int i;
+@@ -22,7 +43,7 @@
+ 
+ int main(void)
+ {
+-	int i, n, arr[MAX];
++	int i, n, ret, key, arr[MAX];
+ 
+ 	printf("Enter the total number of elements: ");
+ 	scanf("%d", &n);
+@@ -39,5 +60,15 @@
+ 	printf("Array has folloing elements\n");
+ 	display(arr, n);
+ 
++	printf("Enter the element to be searched: ");
++	scanf("%d", &key);
++
++	ret = bin_search(arr, n, key);
++	if (ret < 0) {
++		fprintf(stderr, "%d element not present in array\n", key);
++		return 1;
++	}
++	printf("%d element found at location %d\n", key, ret + 1);
++
+ 	return 0;
+ }
+\end{ccode}
+简单的测试后, Tom 提交了修改:
+\begin{svnshell}
+[tom@CentOS trunk]$ svn status&\index{\svn!\svnst}&
+M       array.c
+[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Added search operation"
+Sending        array.c
+Transmitting file data .
+Committed revision 15.
+\end{svnshell}
+
+Tom 想知道 Jerry 提交了哪些修改:
+\begin{svnshell}
+[tom@CentOS trunk]$ cd ../branches/
+[tom@CentOS trunk]$ svn up&\index{\svn!\svnup}&
+Updating '.':
+A    jerry_branch
+A    jerry_branch/README
+A    jerry_branch/array.c
+Updated to revision 15.
+[tom@CentOS trunk]$ svn log&\index{\svn!\svnlog}&
+------------------------------------------------------------------------
+r13 | jerry | 2016-08-20 13:01:52 +0800 (Sat, 20 Aug 2016) | 1 line
+
+Added sort operation
+------------------------------------------------------------------------
+\end{svnshell}
+从提交历史中可以看到, Jerry 实现了排序操作. Tom 添加的二分搜索操作只能应用
+在有序的数据上, 所以 Tom 决定把 Jerry 的分支合并到主干上:
+\begin{ccode}
+[tom@CentOS trunk]$ svn pwd`\index{\svn!\svnpwd}`
+/home/dell/Documents/svn/tom_project_repo/trunk
+[tom@CentOS trunk]$ svn merge`\index{\svn!\svnmg}` ../branches/jerry_branch
+--- Merging r12 through r15 into '.':
+U    array.c
+--- Recording mergeinfo for merge of r12 through r15 into '.':
+ U   .
+[tom@CentOS trunk]$ svn diff`\index{\svn!\svndf}`
+Index: array.c
+===================================================================
+--- array.c	(revision 15)
++++ array.c	(working copy)
+@@ -23,6 +23,23 @@
+ 	return -1;
+ }
+ 
++void bubble_sort(int *arr, int n)
++{
++	int i, j, temp, flag = 1;
++
++	for (i = 1; i < n && flag == 1; i++) {
++		flag = 0;
++		for (j = 0; j < n - i; j++) {
++			if (arr[j] > arr[j + 1]) {
++				flag = 1;
++				temp = arr[j];
++				arr[j] = arr[j + 1];
++				arr[j + 1] = temp;
++			}
++		}
++	}
++}
++
+ void accept_input(int *arr, int n)
+ {
+ 	int i;
+@@ -60,6 +77,10 @@
+ 	printf("Array has folloing elements\n");
+ 	display(arr, n);
+ 
++	printf("Sorted data is\n");
++	bubble_sort(arr, n);
++	display(arr, n);
++
+ 	printf("Enter the element to be searched: ");
+ 	scanf("%d", &key);
+ 
+Index: .
+===================================================================
+--- .	(revision 15)
++++ .	(working copy)
+
+Property changes on: .
+___________________________________________________________________
+Added: svn:mergeinfo
+   Merged /branches/jerry_branch:r12-15
+\end{ccode}
+
+现在可以提交了:
+\begin{svnshell}
+[tom@CentOS trunk]$ svn commit&\index{\svn!\svnci}& -m "Merge changes from Jerrys's code"
+Sending        .
+Sending        array.c
+Transmitting file data .
+Committed revision 16.
+\end{svnshell}
+
 \backmatter
 \chapter{Ubuntu 搭建 Subversion 服务器}
 \label{chap:ubuntu_install_subversion_server}
