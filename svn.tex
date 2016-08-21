@@ -33,6 +33,10 @@
     columns = 2,
     program = makeindex
 ]
+\indexsetup{%
+    level = \chapter*,
+    toclevel = chapter
+}
 
 \hypersetup {
     bookmarksnumbered = true,
@@ -429,7 +433,6 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 作副本恢复到修改前的状态.
 
 \section{解决冲突}
-\label{sec:resolve_conflicts}
 
 冲突会在合并时发生. 操作 merge (合并) 会自动处理可以安全合并的情况, 除此之外的情况
 都会被当作冲突. 例如, 文件 \texttt{hello.c} 在一个分支中被修改, 而在另一个
