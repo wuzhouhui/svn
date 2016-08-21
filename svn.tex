@@ -1,4 +1,4 @@
-\documentclass[nofonts, oneside]{ctexbook}
+\documentclass[nofonts, oneside]{ctexart}
 
 \usepackage{xeCJK}
 \usepackage{hyperref}
@@ -34,8 +34,8 @@
     program = makeindex
 ]
 \indexsetup{%
-    level = \chapter*,
-    toclevel = chapter
+    level = \section*,
+    toclevel = section
 }
 
 \hypersetup {
@@ -88,17 +88,17 @@
 
 \begin{document}
 
-\pdfbookmark[0]{封面}{title}
+\pdfbookmark[1]{封面}{title}
 \maketitle
 
-\pdfbookmark[0]{目录}{contents}
+\pdfbookmark[1]{目录}{contents}
 \tableofcontents
 
-\chapter{基本概念}
-\label{chap:basic_concepts}
+\section{基本概念}
+\label{sec:basic_concepts}
 
-\section{什么是版本控制系统}
-\label{sec:what_is_version_control_system}
+\subsection{什么是版本控制系统}
+\label{subsec:what_is_version_control_system}
 
 版本控制系统 (Version Control System, 简称 VCS) 是一种软件, 它可以帮助软件开
 发人员协同工作, 以及管理产品的完整历史.
@@ -119,8 +119,8 @@ VCS 可以分成两大类别:
 本教程只讨论 CVCS, 特别是 Subversion, 它使用中央服务器来存
 储所有的文件, 并支持团队协作.
 
-\section{版本控制术语}
-\label{sec:version_control_terminologies}
+\subsection{版本控制术语}
+\label{subsec:version_control_terminologies}
 
 首先先来介绍本教程将会用到的几个术语.
 
@@ -159,11 +159,11 @@ VCS 可以分成两大类别:
       提交一半的情况.
 \end{itemize}
 
-\chapter{环境设置}
-\label{chap:environment_setup}
+\section{环境设置}
+\label{sec:environment_setup}
 
-\section{安装 SVN}
-\label{sec:svn_installation}
+\subsection{安装 SVN}
+\label{subsec:svn_installation}
 
 Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
@@ -205,8 +205,8 @@ svn, version 1.7.5 (r1336830)
 compiled Jun 21 2013, 22:11:49
 \end{svnshell}
 
-\section{Apache 设置}
-\label{sec:apache_setup}
+\subsection{Apache 设置}
+\label{subsec:apache_setup}
 
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
 一个新的仓库, 并设置访问权限.
@@ -268,8 +268,8 @@ Adding password for user jerry
 [root@CentOS ~]# mkdir&\index{mkdir@\texttt{mkdir}}& -p /var/www/svn
 \end{svnshell}
 
-\section{设置仓库}
-\label{sec:repository_setup}
+\subsection{设置仓库}
+\label{subsec:repository_setup}
 现在让我们来创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
 创建几个目录, 用于存放元数据:
@@ -360,27 +360,27 @@ Committed revision 1.
 到这里为止, 我们已经成功创建了一个仓库, 该仓库允许 \texttt{tom} 和
 \texttt{jerry} 访问, 从现在开始, 他们两个就可以对仓库进行操作了.
 
-\chapter{生命周期}
-\label{chap:life_cycle}
+\section{生命周期}
+\label{sec:life_cycle}
 
 本章讨论版本控制系统的生命周期, 再下一章介绍每一种操作对应的 Subversion 命令.
 
-\section{创建仓库}
-\label{sec:create_repository}
+\subsection{创建仓库}
+\label{subsec:create_repository}
 
 仓库是开发人员存放所有资料的目录. 除了文件, 仓库还会记录下各个文件的修改历史.
 操作 create (创建) 用于创建一个新的仓库, 在大多数情况下, 这种操作只会做一次. 当开发
 人员创建一个新的仓库时, VCS 会要求你输入一些信息, 比如仓库的创建位置, 仓库的
 名字等.
 
-\section{检出}
-\label{sec:checkout}
+\subsection{检出}
+\label{subsec:checkout}
 
 操作 checkout (检出) 用来从仓库中创建一个工作副本到本地. 工作副本是开发人员私有的工
 作空间, 他们在工作副本中作出修改, 然后再提交到仓库上.
 
-\section{更新}
-\label{sec:update}
+\subsection{更新}
+\label{subsec:update}
 
 顾名思义, 操作 update (更新) 用来更新工作副本, 它把本地的工作副本和服务器上的仓库同
 步. 因为仓库是共享的, 所以其他开发人员会向仓库提交他们修改, 这时候你的工作副
@@ -392,8 +392,8 @@ Committed revision 1.
 这时候, Tom 的工作副本就变成过时了的. 操作 update 会把 Jerry 的修改拉到本地,
 然后把 Tom 的工作副本更新到最新版.
 
-\section{执行修改}
-\label{sec:perform_changes}
+\subsection{执行修改}
+\label{subsec:perform_changes}
 
 有很多操作都可以对工作副本中的文件产生影响, 编辑是其中最常见的操作, 通过编辑,
 文件的内容被添加或删除.
@@ -408,8 +408,8 @@ Committed revision 1.
 操作 rename (重命名) 修改文件或目录的名字. 操作 move (移动) 把文件或目录从
 一个位置移动到另一个位置中.
 
-\section{审核修改}
-\label{sec:review_changes}
+\subsection{审核修改}
+\label{subsec:review_changes}
 
 当开发人员从仓库检出代码, 或更新本地工作副本时, 他们的工作副本就会和仓库同步.
 如果开发人员对工作副本进行了修改, 那它们就会比仓库中的代码要新. 在执行操作
@@ -422,8 +422,8 @@ commit (提交) 之前, 最好对修改进行一下审核.
 操作 status 只会列出发生变化的文件或目录, 但不会显示具体的修改细节. 操作
 diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 
-\section{修正错误}
-\label{sec:fix_mistakes}
+\subsection{修正错误}
+\label{subsec:fix_mistakes}
 
 假设某个开发人员对工作副本进行了一些修改, 但是现在他想撤消这些修改, 这时候,
 可以执行操作 revert (撤消).
@@ -432,15 +432,15 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 消. 如果是对整个工作副本进行撤消, 操作 revert 就会销毁未决的修改列表, 把工
 作副本恢复到修改前的状态.
 
-\section{解决冲突}
+\subsection{解决冲突}
 
 冲突会在合并时发生. 操作 merge (合并) 会自动处理可以安全合并的情况, 除此之外的情况
 都会被当作冲突. 例如, 文件 \texttt{hello.c} 在一个分支中被修改, 而在另一个
 分支中被删除, 因此在合并这两个分支时开发人员就要作出决定. 操作 resolve 可以
 帮助开发人员解决冲突, 并通知 VCS 如何处理冲突情况.
 
-\section{提交修改}
-\label{sec:commit_changes}
+\subsection{提交修改}
+\label{subsec:commit_changes}
 
 操作 commit (提交) 把工作副本所发生的变化应用到仓库中. 这个操作会修改仓库中的代码,
 其他开发人员可以通过更新来查看新提交的修改.
@@ -450,8 +450,8 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 的, 提交日志会成为仓库历史的一部分. 提交是一种原子操作, 要么全部修改都提交
 上去, 要么一个也没有, 不可能看到只提交一半的修改.
 
-\chapter{检出}
-\label{chap:checkout_process}
+\section{检出}
+\label{sec:checkout_process}
 
 Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
 会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
@@ -484,8 +484,8 @@ Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
 [tom@CentOS trunk]$
 \end{svnshell}
 
-\chapter{执行修改}
-\label{chap:perform_changes}
+\section{执行修改}
+\label{sec:perform_changes}
 
 假设 Jerry 从仓库中检出了最新的版本, 然后开始对项目进行开发, 他首先在主干目
 录内创建了一个 \texttt{array.c} 文件:
@@ -571,8 +571,8 @@ Committed revision 2.
 现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
 更新.
 
-\chapter{审核修改}
-\label{chap:review_changes}
+\section{审核修改}
+\label{sec:review_changes}
 Jerry 把 \texttt{array.c} 提交到仓库后, Tom 从仓库中检出了最新的代码, 然后
 开始工作:
 \begin{svnshell}
@@ -672,8 +672,8 @@ Committed revision 3.
 \end{svnshell}
 到这里为止, Tom 所做的修改就已经正式提交到了仓库中.
 
-\chapter{更新}
-\label{chap:update_process}
+\section{更新}
+\label{sec:update_process}
 
 Jerry 曾经提交过 \texttt{array.c} 的第一个版本, 但是他认为应该用两个函数来
 分别负责数据输入和数据打印, 于是, \texttt{array.c} 被修改成:
@@ -872,8 +872,8 @@ Transmitting file data .
 Committed revision 4.
 \end{svnshell}
 
-\chapter{修改错误}
-\label{chap:fix_mistakes}
+\section{修改错误}
+\label{sec:fix_mistakes}
 
 假设 Jerry 修改完 \texttt{array.c} 后, 遇到了编译错误, 因此他想要丢弃现在的
 修改, 这时候就需要执行 revert 操作. 操作 revert 可以撤消本地工作副本中文件
@@ -989,8 +989,8 @@ Transmitting file data .
 Committed revision 7.
 \end{svnshell}
 
-\chapter{解决冲突}
-\label{chap:resolve_conflicts}
+\section{解决冲突}
+\label{sec:resolve_conflicts}
 
 Tom 决定为项目添加一个 \texttt{README} 文件, 文件包含了一个 \texttt{TODO}
 列表, 提交后, 仓库的修订号更新到 8:
@@ -1039,8 +1039,8 @@ svn: E155011: File '/home/dell/Documents/svn/jerry_project_repo/trunk/README' is
 svn: E170004: Item '/trunk/README' is out of date
 \end{svnshell}
 
-\section{查看冲突}
-\label{sec:view_conflicts}
+\subsection{查看冲突}
+\label{subsec:view_conflicts}
 
 Subversion 发现 \texttt{README} 已经过时了, 因此 Jerry 得先更新一下工作副本:
 \begin{svnshell}
@@ -1083,8 +1083,8 @@ Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
         (tc) their side of conflict, (s) show all options:
 \end{svnshell}
 
-\section{推迟处理}
-\label{sec:postpone_conflicts}
+\subsection{推迟处理}
+\label{subsec:postpone_conflicts}
 接下来, Jerry 选择推迟处理, 即选项 \texttt{p}:
 \begin{svnshell}
 Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
@@ -1138,8 +1138,8 @@ Summary of conflicts:
   Text conflicts: 1
 \end{svnshell}
 
-\section{解决冲突}
-\label{sec:resolve_conflicts}
+\subsection{解决冲突}
+\label{subsec:resolve_conflicts}
 在上面的提交中, 文件名左边的 \texttt{C} 表示该文件还有冲突未被处理. Jerry
 虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
 来告诉 Subversion 冲突的处理结果:
@@ -1154,8 +1154,8 @@ Transmitting file data .
 Committed revision 10.
 \end{svnshell}
 
-\chapter{标签}
-\label{chap:tags}
+\section{标签}
+\label{sec:tags}
 
 版本控制系统支持标签操作, 打标签指的是给代码的某个特定版本取一个有意义的名
 字, 例如, \texttt{BASIC\_ARRAY\_OPERATIONS} 比 修订号 4 更容易记住.
@@ -1186,8 +1186,8 @@ Adding         tags/basic_array_operations
 Committed revision 11.
 \end{svnshell}
 
-\chapter{分支}
-\label{chap:branching}
+\section{分支}
+\label{sec:branching}
 
 分支用来创建一条新的开发线, 如果开发人员想让开发过程朝着两个不同的方向发展,
 这时候就会用到分支. 比如说, 现在已经发布了版本 1.0, 这时候你可能想创建一条
@@ -1451,8 +1451,8 @@ Committed revision 16.
 \end{svnshell}
 
 \appendix
-\chapter{Ubuntu 搭建 Subversion 服务器}
-\label{chap:ubuntu_install_subversion_server}
+\section{Ubuntu 搭建 Subversion 服务器}
+\label{sec:ubuntu_install_subversion_server}
 本章介绍 Ubuntu 12.04 搭建 Subversion 服务器的过程.
 
 \begin{enumerate}
@@ -1543,8 +1543,7 @@ svn$
     \includegraphics[scale=0.6]{./images/terminalrepo.png}
 \end{center}
 
-\backmatter
-\pdfbookmark[0]{索引}{index}
+\pdfbookmark[1]{索引}{index}
 
 \printindex
 
