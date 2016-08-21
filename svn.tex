@@ -77,8 +77,10 @@
 
 \begin{document}
 
+\pdfbookmark[0]{封面}{title}
 \maketitle
 
+\pdfbookmark[0]{目录}{contents}
 \tableofcontents
 
 \chapter{基本概念}
@@ -1532,7 +1534,10 @@ svn$
 \end{center}
 
 \backmatter
-\pdfbookmark[0]{索引}{chap:index}
+% FIXME
+% 点击索引的书签时, 补打开的页面太靠下了.
+\pdfbookmark[0]{索引}{index}
+
 \printindex
 
 \end{document}
