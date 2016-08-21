@@ -5,6 +5,7 @@
 \usepackage{makeidx}
 \usepackage{listings}
 \usepackage{geometry}
+\usepackage{imakeidx}
 
 \newcommand\shellcmd[1]{\texttt{#1}}
 \newcommand\svn{\texttt{svn}}
@@ -26,6 +27,12 @@
 \newcommand\svninfo{\texttt{info}}
 \newcommand\svnls{\texttt{ls}}
 \newcommand\svnadmin{\texttt{svnadmin}}
+
+\makeindex[%
+    intoc = true, % FIXME: 不起作用.
+    columns = 2,
+    program = makeindex
+]
 
 \hypersetup {
     bookmarksnumbered = true,
@@ -1534,12 +1541,8 @@ svn$
 \end{center}
 
 \backmatter
-% FIXME
-% 点击索引的书签时, 被打开的页面太靠下了.
 \pdfbookmark[0]{索引}{index}
 
-% TODO
-% 把索引添加到目录
 \printindex
 
 \end{document}
