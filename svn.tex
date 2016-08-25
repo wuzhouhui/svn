@@ -188,7 +188,7 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 -bash: svn: command not found
 \end{svnshell}
 
-如果你用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
+如果读者用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
 \shellcmd{yum}\index{yum@\texttt{yum}}
 来安装
 Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
@@ -205,14 +205,31 @@ compiled Jun 23 2012, 00:44:03
 如果是 Debian 系列的 GNU/Linux 发行版, 就用命令
 \shellcmd{apt}\index{apt@\texttt{apt}} 安装:
 \begin{svnshell}
-    [jerry@Ubuntu]$ sudo apt-get update&\index{apt@\texttt{apt}!\texttt{update}}&
+[jerry@Ubuntu]$ sudo apt-get update&\index{apt@\texttt{apt}!\texttt{update}}&
 [sudo] password for jerry:
 
 [jerry@Ubuntu]$ sudo apt-get install subversion&\index{apt@\texttt{apt}!\texttt{install}}&
 
 [jerry@Ubuntu]$ svn --version&\index{svn@\svn!\texttt{--version}}&
-svn, version 1.7.5 (r1336830)
-compiled Jun 21 2013, 22:11:49
+svn, version 1.8.8 (r1568071)
+   compiled Aug 20 2015, 12:51:12 on i686-pc-linux-gnu
+
+Copyright (C) 2013 The Apache Software Foundation.
+This software consists of contributions made by many people;
+see the NOTICE file for more information.
+Subversion is open source software, see http://subversion.apache.org/
+
+The following repository access (RA) modules are available:
+
+* ra_svn : Module for accessing a repository using the svn network protocol.
+  - with Cyrus SASL authentication
+  - handles 'svn' scheme
+* ra_local : Module for accessing a repository on local disk.
+  - handles 'file' scheme
+* ra_serf : Module for accessing a repository via WebDAV protocol using serf.
+  - using serf 1.3.3
+  - handles 'http' scheme
+  - handles 'https' scheme
 \end{svnshell}
 
 \subsection{Apache 设置}
@@ -249,14 +266,14 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 </Location>
 \end{svnshell}
 
-现在我们开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
+现在开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
 \shellcmd{htpasswd}\index{htpasswd@\texttt{htpasswd}} 用于创建和更新纯文本文件,
 这些文件中存放
 着用户名和密码. 如果指定了选项 \shellcmd{-c}, 则命令会创建一个密码文件, 如果
 密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
 \shellcmd{-m} 开启密码的 MD5 加密.
 
-假设现在我们要创建用户 \texttt{tom}:
+假设现在要创建用户 \texttt{tom}:
 \begin{svnshell}
 [root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -cm /etc/svn-users tom
 New password:
@@ -280,9 +297,9 @@ Adding password for user jerry
 
 \subsection{设置仓库}
 \label{subsec:repository_setup}
-现在让我们来创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
+现在创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
-创建几个目录, 用于存放元数据:
+创建几个子目录, 用于存放元数据:
 \begin{svnshell}
 [root@CentOS svn]# pwd&\index{pwd@\svnpwd}&
 /var/www/svn
@@ -296,7 +313,7 @@ drwxr-xr-x. 2 root root 4096 Aug  4 22:30 hooks
 drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
 -rw-r--r--. 1 root root  229 Aug  4 22:30 README.txt
 \end{svnshell}
-然后, 我们要修改仓库目录的用户与用户组:
+然后, 修改仓库目录的用户与用户组:
 \begin{svnshell}
 [root@CentOS svn]# chown&\index{chown@\texttt{chown}}& -R apache.apache project_repo/
 \end{svnshell}
@@ -310,7 +327,7 @@ Mode from config file:      enforcing
 Policy version:             24
 Policy from config file:    targeted
 \end{svnshell}
-在笔者的环境中, SELinux 默认是开启的, 因此我们还需要修改 SELinux 的安全上下文:
+在笔者的环境中, SELinux 默认是开启的, 因此还需要修改 SELinux 的安全上下文:
 \begin{svnshell}
 [root@CentOS svn]# chcon&\index{SELinux!\texttt{chcon}}& -R -t httpd_sys_content_t \
 > /var/www/svn/project_repo/
@@ -320,7 +337,8 @@ Policy from config file:    targeted
 [root@CentOS svn]# chcon&\index{SELinux!\texttt{chcon}}& -R -t httpd_sys_rw_content_t \
 > /var/www/svn/project_repo/
 \end{svnshell}
-和 Apache 相关的配置到这里为止就全部结束了, 现在我们需要重启一下 Apache 服务:
+和 Apache 相关的配置到这里为止就全部结束了, 每次更新配置都需要重启 Apache
+服务:
 \begin{svnshell}
 [root@CentOS svn]# service httpd restart
 Stopping httpd                          [FAILED]
@@ -332,7 +350,7 @@ name, using 127.0.0.1 for ServerName
 httpd (pid 1372) is running...
 \end{svnshell}
 
-接下来, 我们需要对仓库进行配置. 为了实现只有授权的用户才能访问仓库, 并且使用
+接下来开始配置仓库. 为了实现只有授权的用户才能访问仓库, 并且使用
 默认的授权文件, 就把下面几行添加到
 \texttt{project\_repo/conf/svnserve.conf}\index{svnserve.conf@\texttt{svnserve.conf}}
 文件中.
@@ -352,7 +370,7 @@ authz-db = authz
 
 目录 \texttt{branches} 用于存放不同的开发线.
 
-现在, 我们就要在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
+在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
 这三个目录:
 \begin{svnshell}
 [root@CentOS svn]# mkdir&\index{mkdir@\texttt{mkdir}}& /tmp/svn-template
