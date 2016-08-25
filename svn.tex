@@ -256,14 +256,14 @@ LoadModule authz_svn_module modules/mod_authz_svn.so
 </Location>
 \end{svnshell}
 
-现在我们开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
+现在开始创建 Subversion 用户, 并赋予他们访问仓库的权限. 命令
 \shellcmd{htpasswd}\index{htpasswd@\texttt{htpasswd}} 用于创建和更新纯文本文件,
 这些文件中存放
 着用户名和密码. 如果指定了选项 \shellcmd{-c}, 则命令会创建一个密码文件, 如果
 密码文件已经存在, 就会被覆盖, 因此选项 \shellcmd{-c} 只在第一次时用到. 选项
 \shellcmd{-m} 开启密码的 MD5 加密.
 
-假设现在我们要创建用户 \texttt{tom}:
+假设现在要创建用户 \texttt{tom}:
 \begin{svnshell}
 [root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -cm /etc/svn-users tom
 New password:
@@ -287,7 +287,7 @@ Adding password for user jerry
 
 \section{设置仓库}
 \label{sec:repository_setup}
-现在让我们来创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
+现在创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
 创建几个目录, 用于存放元数据:
 \begin{svnshell}
