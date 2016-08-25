@@ -327,7 +327,8 @@ Policy from config file:    targeted
 [root@CentOS svn]# chcon&\index{SELinux!\texttt{chcon}}& -R -t httpd_sys_rw_content_t \
 > /var/www/svn/project_repo/
 \end{svnshell}
-和 Apache 相关的配置到这里为止就全部结束了, 现在我们需要重启一下 Apache 服务:
+和 Apache 相关的配置到这里为止就全部结束了, 每次更新配置都需要重启 Apache
+服务:
 \begin{svnshell}
 [root@CentOS svn]# service httpd restart
 Stopping httpd                          [FAILED]
