@@ -340,7 +340,7 @@ name, using 127.0.0.1 for ServerName
 httpd (pid 1372) is running...
 \end{svnshell}
 
-接下来, 我们需要对仓库进行配置. 为了实现只有授权的用户才能访问仓库, 并且使用
+接下来开始配置仓库. 为了实现只有授权的用户才能访问仓库, 并且使用
 默认的授权文件, 就把下面几行添加到
 \texttt{project\_repo/conf/svnserve.conf}\index{svnserve.conf@\texttt{svnserve.conf}}
 文件中.
@@ -360,7 +360,7 @@ authz-db = authz
 
 目录 \texttt{branches} 用于存放不同的开发线.
 
-现在, 我们就要在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
+在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
 这三个目录:
 \begin{svnshell}
 [root@CentOS svn]# mkdir&\index{mkdir@\texttt{mkdir}}& /tmp/svn-template
