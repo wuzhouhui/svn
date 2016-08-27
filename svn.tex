@@ -901,7 +901,7 @@ Committed revision 4.
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
 \end{svnshell}
-\texttt{array.c} 被修改了, 如果我们试图编译它的话:
+\texttt{array.c} 被修改了, 如果试图编译它的话:
 \begin{ccode}
 [jerry@CentOS trunk]$ gcc`\index{gcc@\svngcc}` array.c -o array
 array.c: In function ‘main’:
@@ -938,7 +938,7 @@ Reverted 'array.c'
 
 到现在为止, 我们已经介绍了如何撤消工作副本中未提交的修改, 但是, 如果修改已经
 提交了, 那这时候又该怎么办. VCS 不允许从仓库中删除提交历史, 我们所能做的只有
-添加历史. 为了撤消某个修订, 我们必须撤消该修订中所提交的所有修改, 然后再提交
+添加历史. 为了撤消某个修订, 必须撤消该修订中所提交的所有修改, 然后再提交
 一个新的修订, 这种操作叫作逆向合并 (reverse merge).
 
 假设 Jerry 为 \texttt{array.c} 定义了一个新函数, 用于线性搜索, 审核后, 他提交
@@ -975,7 +975,7 @@ Transmitting file data .
 Committed revision 6.
 \end{ccode}
 
-Jerry 想知道 Tom 向仓库提交了哪些代码:
+Jerry 想知道 Tom 向仓库提交了哪些修改:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
@@ -1231,7 +1231,7 @@ Adding         branches/jerry_branch
 Committed revision 12.
 \end{svnshell}
 
-现在, Jerry 就可以安全地在自己的分支里开发了. 他在 \texttt{array.c} 里添加了
+现在, Jerry 就可以安全地在自己的分支里工作了. 他在 \texttt{array.c} 里添加了
 排序操作, 修改后的 \texttt{array.c} 的内容是:
 \begin{ccode}
 [jerry@CentOS jerry_branch]$ cat`\index{cat@\svncat}` array.c
