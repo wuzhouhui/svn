@@ -162,7 +162,7 @@ VCS 可以分成两大类别:
 \chapter{环境设置}
 \label{chap:environment_setup}
 
-\section{安装 SVN}
+\section{安装 SVN 客户端工具}
 \label{sec:svn_installation}
 
 Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
@@ -222,7 +222,7 @@ The following repository access (RA) modules are available:
   - handles 'https' scheme
 \end{svnshell}
 
-\section{Apache 设置}
+\section{服务器端 Apache 设置}
 \label{sec:apache_setup}
 
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
@@ -285,7 +285,7 @@ Adding password for user jerry
 [root@CentOS ~]# mkdir&\index{mkdir@\texttt{mkdir}}& -p /var/www/svn
 \end{svnshell}
 
-\section{设置仓库}
+\section{服务器端仓库设置}
 \label{sec:repository_setup}
 现在创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
