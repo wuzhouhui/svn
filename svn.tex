@@ -473,7 +473,7 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 
 Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
 会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
-感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
+感到担心, 在大多数情况下, Subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
 [tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://svn.server.com/svn/project_repo --username=tom
@@ -558,22 +558,22 @@ Array has following elements
 ?	array.c
 ?	array
 \end{svnshell}
-如果 subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
+如果 Subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
 \texttt{?}.
 
-在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
+在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的修改列表上:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& array.c
-A	array.c
+A       array.c
 \end{svnshell}
 
-现在让我们再检查一下工作副本的状态:
+现在再检查一下工作副本的状态:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
-?	array
-A	array.c
+?       array
+A       array.c
 \end{svnshell}
-\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的变化列
+\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的修改列
 表上.
 
 为了把 \texttt{array.c} 更新到仓库中, 需要执行命令 \svnci, 并带上参数
