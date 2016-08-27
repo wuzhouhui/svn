@@ -172,7 +172,7 @@ VCS 可以分成两大类别:
 \section{环境设置}
 \label{sec:environment_setup}
 
-\subsection{安装 SVN}
+\subsection{安装 SVN 客户端工具}
 \label{subsec:svn_installation}
 
 Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
@@ -232,7 +232,7 @@ The following repository access (RA) modules are available:
   - handles 'https' scheme
 \end{svnshell}
 
-\subsection{Apache 设置}
+\subsection{服务器端 Apache 设置}
 \label{subsec:apache_setup}
 
 上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
@@ -295,8 +295,9 @@ Adding password for user jerry
 [root@CentOS ~]# mkdir&\index{mkdir@\texttt{mkdir}}& -p /var/www/svn
 \end{svnshell}
 
-\subsection{设置仓库}
+\subsection{服务器端仓库设置}
 \label{subsec:repository_setup}
+
 现在创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
 创建几个子目录, 用于存放元数据:
@@ -397,22 +398,22 @@ Committed revision 1.
 \label{subsec:create_repository}
 
 仓库是开发人员存放所有资料的目录. 除了文件, 仓库还会记录下各个文件的修改历史.
-操作 create (创建) 用于创建一个新的仓库, 在大多数情况下, 这种操作只会做一次. 当开发
+操作 create (创建) 创建一个新的仓库, 在大多数情况下, 这种操作只会做一次. 当开发
 人员创建一个新的仓库时, VCS 会要求你输入一些信息, 比如仓库的创建位置, 仓库的
 名字等.
 
 \subsection{检出}
 \label{subsec:checkout}
 
-操作 checkout (检出) 用来从仓库中创建一个工作副本到本地. 工作副本是开发人员私有的工
+操作 checkout (检出) 从仓库中创建一个工作副本到本地. 工作副本是开发人员私有的工
 作空间, 他们在工作副本中作出修改, 然后再提交到仓库上.
 
 \subsection{更新}
 \label{subsec:update}
 
 顾名思义, 操作 update (更新) 用来更新工作副本, 它把本地的工作副本和服务器上的仓库同
-步. 因为仓库是共享的, 所以其他开发人员会向仓库提交他们修改, 这时候你的工作副
-本就会落后于仓库.
+步. 因为仓库是共享的, 所以其他开发人员会向仓库提交他们的修改, 这时候你的工作副
+本就会变成过时了的.
 
 假设某一项目有 Tom 和 Jerry 两个开发人员, 他们都从仓库中检出了最新版本的代码,
 然后各自开始开发. Jerry 的工作效率比较高, 他很快就把修改提交到了仓库上.
@@ -434,7 +435,7 @@ Committed revision 1.
 的对应文件才会被删除.
 
 操作 rename (重命名) 修改文件或目录的名字. 操作 move (移动) 把文件或目录从
-一个位置移动到另一个位置中.
+一个位置移动到另一个位置.
 
 \subsection{审核修改}
 \label{subsec:review_changes}
@@ -443,9 +444,9 @@ Committed revision 1.
 如果开发人员对工作副本进行了修改, 那它们就会比仓库中的代码要新. 在执行操作
 commit (提交) 之前, 最好对修改进行一下审核.
 
-操作 status (状态) 列出工作副本所发生的变化. 我们前面已经说过, 无论何时对工作副本中
-的文件作出修改, 这些修改就会变成未决的修改列表的一部分. 操作 status 用于查看
-未决的修改列表.
+操作 status (状态) 列出工作副本所发生的变化. 前面已经说过, 无论何时对工作副本中
+的文件作出修改, 这些修改就会变成未决的修改列表的一部分, 操作 status 可以列出
+未决的修改列表的内容.
 
 操作 status 只会列出发生变化的文件或目录, 但不会显示具体的修改细节. 操作
 diff 用来查看工作副本中的文件内容具体发生了哪些变化.
@@ -483,7 +484,7 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 
 Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
 会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
-感到担心, 在大多数情况下, subversion 管理员知道如何拼写 URL, 而且配置了适当的
+感到担心, 在大多数情况下, Subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
 [tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://svn.server.com/svn/project_repo --username=tom
@@ -568,22 +569,22 @@ Array has following elements
 ?	array.c
 ?	array
 \end{svnshell}
-如果 subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
+如果 Subversion 不知道如何处理某些文件, 就会在文件名的左边打印一个问号
 \texttt{?}.
 
-在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的变化列表上:
+在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的修改列表上:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& array.c
-A	array.c
+A       array.c
 \end{svnshell}
 
-现在让我们再检查一下工作副本的状态:
+现在再检查一下工作副本的状态:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
-?	array
-A	array.c
+?       array
+A       array.c
 \end{svnshell}
-\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的变化列
+\texttt{array.c} 左边的 \texttt{A} 表示该文件已经成功地添加到了未决的修改列
 表上.
 
 为了把 \texttt{array.c} 更新到仓库中, 需要执行命令 \svnci, 并带上参数
@@ -911,7 +912,7 @@ Committed revision 4.
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       array.c
 \end{svnshell}
-\texttt{array.c} 被修改了, 如果我们试图编译它的话:
+\texttt{array.c} 被修改了, 如果试图编译它的话:
 \begin{ccode}
 [jerry@CentOS trunk]$ gcc`\index{gcc@\svngcc}` array.c -o array
 array.c: In function ‘main’:
@@ -948,7 +949,7 @@ Reverted 'array.c'
 
 到现在为止, 我们已经介绍了如何撤消工作副本中未提交的修改, 但是, 如果修改已经
 提交了, 那这时候又该怎么办. VCS 不允许从仓库中删除提交历史, 我们所能做的只有
-添加历史. 为了撤消某个修订, 我们必须撤消该修订中所提交的所有修改, 然后再提交
+添加历史. 为了撤消某个修订, 必须撤消该修订中所提交的所有修改, 然后再提交
 一个新的修订, 这种操作叫作逆向合并 (reverse merge).
 
 假设 Jerry 为 \texttt{array.c} 定义了一个新函数, 用于线性搜索, 审核后, 他提交
@@ -985,7 +986,7 @@ Transmitting file data .
 Committed revision 6.
 \end{ccode}
 
-Jerry 想知道 Tom 向仓库提交了哪些代码:
+Jerry 想知道 Tom 向仓库提交了哪些修改:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
@@ -1241,7 +1242,7 @@ Adding         branches/jerry_branch
 Committed revision 12.
 \end{svnshell}
 
-现在, Jerry 就可以安全地在自己的分支里开发了. 他在 \texttt{array.c} 里添加了
+现在, Jerry 就可以安全地在自己的分支里工作了. 他在 \texttt{array.c} 里添加了
 排序操作, 修改后的 \texttt{array.c} 的内容是:
 \begin{ccode}
 [jerry@CentOS jerry_branch]$ cat`\index{cat@\svncat}` array.c
@@ -1481,7 +1482,8 @@ Committed revision 16.
 \appendix
 \section{Ubuntu 搭建 Subversion 服务器}
 \label{sec:ubuntu_install_subversion_server}
-本章介绍 Ubuntu 12.04 搭建 Subversion 服务器的过程.
+本章介绍 Ubuntu 12.04 搭建 Subversion 服务器的过程\footnote{本章是中文版
+新增的内容, 英文版中没有 --- 译者注}.
 
 \begin{enumerate}
   \item 安装必要的软件包
