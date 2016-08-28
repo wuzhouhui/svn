@@ -38,12 +38,12 @@
 \newcommand\svnadmin{\texttt{svnadmin}}
 
 \makeindex[%
-    intoc = true, % FIXME: 不起作用.
+    intoc = true,
     columns = 2,
     program = makeindex
 ]
 \indexsetup{%
-    level = \section*,
+    level = \section,
     othercode = {%
         \renewcommand\indexspace{\smallskip}
     },
@@ -1574,8 +1574,6 @@ svn$
 \begin{center}
     \includegraphics[scale=0.6]{./images/terminalrepo.png}
 \end{center}
-
-\pdfbookmark[1]{索引}{index}
 
 \printindex
 
