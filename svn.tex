@@ -8,7 +8,6 @@
 \usepackage{imakeidx}
 \usepackage{tocloft}
 
-
 \setCJKfamilyfont{heiti}{FandolHei}
 % 章节格式
 \CTEXsetup[format+={\CJKfamily{heiti}\Large\mdseries}]{section}
@@ -45,6 +44,9 @@
 ]
 \indexsetup{%
     level = \section*,
+    othercode = {%
+        \renewcommand\indexspace{\smallskip}
+    },
     toclevel = section
 }
 
