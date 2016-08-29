@@ -16,6 +16,9 @@
 % 目录格式
 \renewcommand\cftsecfont{\CJKfamily{heiti}}
 
+% 页面风格
+\pagestyle{plain}
+
 \newcommand\shellcmd[1]{\texttt{#1}}
 \newcommand\svn{\texttt{svn}}
 \newcommand\svnci{\texttt{commit}}
@@ -63,6 +66,7 @@
         escapechar = &,
         breaklines = true,
         breakatwhitespace = true,
+        lineskip = -1pt,
     }
   }
   {}
@@ -74,6 +78,7 @@
         escapechar = `,
         breaklines = true,
         breakatwhitespace = true,
+        lineskip = -1pt,
     }
   }
   {}
@@ -88,7 +93,7 @@
 \setmonofont[Mapping={}]{Courier 10 Pitch}
 
 \geometry{%
-    top = 2.5cm,
+    top = 2cm,
     bottom = 2cm,
     outer = 2.5cm,
     inner = 2.5cm
@@ -800,7 +805,7 @@ Index: array.c
  	return 0;
  }
 \end{ccode}
-新增的行, 其左边用 \texttt{+} 标记, 被删除的行则用 \texttt{-}. 现在 Jerry
+新增的行, 其左边用 \texttt{+} 标记, 被删除的行用 \texttt{-} 标记. 现在 Jerry
 试图向仓库中提交代码:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Add function to accept input and to display array contents"
@@ -1414,7 +1419,7 @@ Added sort operation
 从提交历史中可以看到, Jerry 实现了排序操作. Tom 添加的二分搜索操作只能应用
 在有序的数据上, 所以 Tom 决定把 Jerry 的分支合并到主干上:
 \begin{ccode}
-[tom@CentOS trunk]$ svn pwd`\index{pwd@\svnpwd}`
+[tom@CentOS trunk]$ pwd`\index{pwd@\svnpwd}`
 /home/dell/Documents/svn/tom_project_repo/trunk
 [tom@CentOS trunk]$ svn merge`\index{svn@\svn!\svnmg}` ../branches/jerry_branch
 --- Merging r12 through r15 into '.':
