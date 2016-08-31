@@ -400,7 +400,10 @@ authz-db = authz
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/ http://127.0.0.1/svn/project_repo -m 'Create trunk, branches, tags directory structure' --username tom
+[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& /tmp/svn-template/ \
+> http://127.0.0.1/svn/project_repo \
+> -m 'Create trunk, branches, tags directory structure' \
+> --username tom
 Adding              /tmp/svn-template/trunk
 Adding              /tmp/svn-template/branches
 Adding              /tmp/svn-template/tags
