@@ -67,6 +67,7 @@
         breaklines = true,
         breakatwhitespace = true,
         lineskip = -1pt,
+        frameround = tttt,
     }
   }
   {}
@@ -79,6 +80,7 @@
         breaklines = true,
         breakatwhitespace = true,
         lineskip = -1pt,
+        frameround = tttt,
     }
   }
   {}
@@ -192,7 +194,7 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 的话, 就会输出一条错误信息:
 \begin{svnshell}
 [jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
--bash: svn: command not found
+/bin/bash: svn: command not found
 \end{svnshell}
 
 如果读者用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
@@ -206,7 +208,22 @@ Password:
 
 [jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
 svn, version 1.6.11 (r934486)
-compiled Jun 23 2012, 00:44:03
+   compiled Aug 17 2015, 08:37:43
+
+Copyright (C) 2000-2009 CollabNet.
+Subversion is open source software, see http://subversion.tigris.org/
+This product includes software developed by CollabNet (http://www.Collab.Net/).
+
+The following repository access (RA) modules are available:
+
+* ra_neon : Module for accessing a repository via WebDAV protocol using Neon.
+  - handles 'http' scheme
+  - handles 'https' scheme
+* ra_svn : Module for accessing a repository using the svn network protocol.
+  - with Cyrus SASL authentication
+  - handles 'svn' scheme
+* ra_local : Module for accessing a repository on local disk.
+  - handles 'file' scheme
 \end{svnshell}
 
 如果是 Debian 系列的 GNU/Linux 发行版, 就用命令
@@ -248,8 +265,6 @@ The following repository access (RA) modules are available:
 在服务器端, 我们需要安装 Apache \shellcmd{httpd}\index{httpd@\texttt{httpd}} 模块和
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具:
 \begin{svnshell}
-[jerry@CentOS ~]$ su -
-Password:
 [root@CentOS ~]# yum install&\index{yum@\texttt{yum}!install@\texttt{install}}& mod_dav_svn subversion
 \end{svnshell}
 安装了软件包 \texttt{mod\_dav\_svn}\index{mod\_dav\_svn@\texttt{mod\_dav\_svn}} 之后, 用户就
@@ -290,7 +305,7 @@ Adding password for user tom
 
 再创建一个用户 \texttt{jerry}:
 \begin{svnshell}
-[root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -cm /etc/svn-users jerry
+[root@CentOS ~]# htpasswd&\index{htpasswd@\texttt{htpasswd}}& -m /etc/svn-users jerry
 New password:
 Re-type new password:
 Adding password for user jerry
@@ -314,12 +329,12 @@ Adding password for user jerry
 [root@CentOS svn]# svnadmin&\index{svnadmin@\svnadmin}& create&\index{svnadmin@\svnadmin!create@\texttt{create}}& project_repo
 [root@CentOS svn]# ls&\index{ls@\svnls}& -l project_repo
 total 24
-drwxr-xr-x. 2 root root 4096 Aug  4 22:30 conf
-drwxr-xr-x. 6 root root 4096 Aug  4 22:30 db
--r--r--r--. 1 root root    2 Aug  4 22:30 format
-drwxr-xr-x. 2 root root 4096 Aug  4 22:30 hooks
-drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
--rw-r--r--. 1 root root  229 Aug  4 22:30 README.txt
+drwxr-xr-x. 2 root root 4096 Aug 28 08:43 conf
+drwxr-sr-x. 6 root root 4096 Aug 28 08:43 db
+-r--r--r--. 1 root root    2 Aug 28 08:43 format
+drwxr-xr-x. 2 root root 4096 Aug 28 08:43 hooks
+drwxr-xr-x. 2 root root 4096 Aug 28 08:43 locks
+-rw-r--r--. 1 root root  229 Aug 28 08:43 README.txt
 \end{svnshell}
 然后, 修改仓库目录的用户与用户组:
 \begin{svnshell}
@@ -328,12 +343,12 @@ drwxr-xr-x. 2 root root 4096 Aug  4 22:30 locks
 查看 SELinux\index{SELinux} 是否开启:
 \begin{svnshell}
 [root@CentOS svn]# sestatus&\index{SELinux!\texttt{sestatus}}&
-SELinux status:             enabled
-SELinuxfs mount:            /selinux
-Current mode:               enforcing
-Mode from config file:      enforcing
-Policy version:             24
-Policy from config file:    targeted
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy version:                 24
+Policy from config file:        targeted
 \end{svnshell}
 在笔者的环境中, SELinux 默认是开启的, 因此还需要修改 SELinux 的安全上下文:
 \begin{svnshell}
@@ -361,7 +376,7 @@ httpd (pid 1372) is running...
 接下来开始配置仓库. 为了实现只有授权的用户才能访问仓库, 并且使用
 默认的授权文件, 就把下面几行添加到
 \texttt{project\_repo/conf/svnserve.conf}\index{svnserve.conf@\texttt{svnserve.conf}}
-文件中.
+的 \texttt{[general]} 部分:
 \begin{svnshell}
 anon-access = none
 authz-db = authz
@@ -385,7 +400,7 @@ authz-db = authz
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/
+[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& -m 'Create trunk, branches, tags directory structure' /tmp/svn-template/ http://127.0.0.1/svn/project_repo -m 'Create trunk, branches, tags directory structure' --username tom
 Adding              /tmp/svn-template/trunk
 Adding              /tmp/svn-template/branches
 Adding              /tmp/svn-template/tags
