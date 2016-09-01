@@ -259,10 +259,10 @@ The following repository access (RA) modules are available:
 \subsection{服务器端 Apache 设置}
 \label{subsec:apache_setup}
 
-上面我们已经介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
+上面介绍了如何在 GNU/Linux 中安装 Subversion 客户端, 现在介绍如何创建
 一个新的仓库, 并设置访问权限.
 
-在服务器端, 我们需要安装 Apache \shellcmd{httpd}\index{httpd@\texttt{httpd}} 模块和
+在服务器端需要安装 Apache \shellcmd{httpd}\index{httpd@\texttt{httpd}} 模块和
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具:
 \begin{svnshell}
 [root@CentOS ~]# yum install&\index{yum@\texttt{yum}!install@\texttt{install}}& mod_dav_svn subversion
@@ -411,7 +411,7 @@ Committed revision 1.
 [root@CentOS svn]#
 \end{svnshell}
 
-到这里为止, 我们已经成功创建了一个仓库, 该仓库允许 \texttt{tom} 和
+到这里为止, 就已经成功创建了一个仓库, 该仓库允许 \texttt{tom} 和
 \texttt{jerry} 访问, 从现在开始, 他们两个就可以对仓库进行操作了.
 
 \section{生命周期}
@@ -437,7 +437,7 @@ Committed revision 1.
 \label{subsec:update}
 
 顾名思义, 操作 update (更新) 用来更新工作副本, 它把本地的工作副本和服务器上的仓库同
-步. 因为仓库是共享的, 所以其他开发人员会向仓库提交他们的修改, 这时候你的工作副
+步. 因为仓库是共享的, 所以开发人员会向仓库提交他们的修改, 这时候其他人的工作副
 本就会变成过时了的.
 
 假设某一项目有 Tom 和 Jerry 两个开发人员, 他们都从仓库中检出了最新版本的代码,
@@ -467,7 +467,7 @@ Committed revision 1.
 
 当开发人员从仓库检出代码, 或更新本地工作副本时, 他们的工作副本就会和仓库同步.
 如果开发人员对工作副本进行了修改, 那它们就会比仓库中的代码要新. 在执行操作
-commit (提交) 之前, 最好对修改进行一下审核.
+commit (提交) 之前, 最好对修改进行审核.
 
 操作 status (状态) 列出工作副本所发生的变化. 前面已经说过, 无论何时对工作副本中
 的文件作出修改, 这些修改就会变成未决的修改列表的一部分, 操作 status 可以列出
@@ -502,7 +502,7 @@ diff 用来查看工作副本中的文件内容具体发生了哪些变化.
 在提交前, 开发人员要把文件/目录添加到未决的修改列表上, 这是修改等待提交的地
 方. 在提交时, 开发人员通常要写上提交日志, 在日志中解释为什么这次修改是必要
 的, 提交日志会成为仓库历史的一部分. 提交是一种原子操作, 要么全部修改都提交
-上去, 要么一个也没有, 不可能看到只提交一半的修改.
+上去, 要么一个也没有, 不可能出现只提交一半的修改.
 
 \section{检出}
 \label{sec:checkout_process}
