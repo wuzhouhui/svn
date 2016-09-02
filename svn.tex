@@ -400,7 +400,7 @@ authz-db = authz
 [root@CentOS svn]# mkdir /tmp/svn-template/trunk
 [root@CentOS svn]# mkdir /tmp/svn-template/branches
 [root@CentOS svn]# mkdir /tmp/svn-template/tags
-[root@CentOS svn]# svn import&\index{svn@\svn!\svnim}& /tmp/svn-template/ \
+[root@CentOS svn]# svn import&\index{svn@\svn!import@\svnim}& /tmp/svn-template/ \
 > http://127.0.0.1/svn/project_repo \
 > -m 'Create trunk, branches, tags directory structure' \
 > --username tom
@@ -512,7 +512,7 @@ Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副�
 感到担心, 在大多数情况下, Subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
-[tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://localhost/svn/project_repo \
+[tom@CentOS ~]$ svn checkout&\index{svn@\svn!checkout@\svnco}& http://localhost/svn/project_repo \
 > --username=tom
 A	project_repo/trunk
 A	project_repo/branches
@@ -525,7 +525,7 @@ Checked out revision 1.
 \begin{svnshell}
 [tom@CentOS trunk]$ pwd&\index{pwd@\svnpwd}&
 /home/tom/project_repo/trunk
-[tom@CentOS trunk]$ svn info&\index{svn@\svn!\svninfo}&
+[tom@CentOS trunk]$ svn info&\index{svn@\svn!info@\svninfo}&
 Path: .
 Working Copy Root Path: /home/dell/Documents/svn/project_repo
 URL: http://localhost/svn/project_repo
@@ -600,7 +600,7 @@ Array has following elements
 
 在提交前, Jerry 需要把文件 \texttt{array.c} 添加到未决的修改列表上:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& array.c
+[jerry@CentOS trunk]$ svn add&\index{svn@\svn!add@\svnadd}& array.c
 A       array.c
 \end{svnshell}
 
@@ -631,7 +631,7 @@ Committed revision 2.
 Jerry 把 \texttt{array.c} 提交到仓库后, Tom 从仓库中检出了最新的代码, 然后
 开始工作:
 \begin{svnshell}
-[tom@CentOS ~]$ svn co&\index{svn@\svn!\svnco}& http://svn.server.conm/svn/project_repo --username=tom
+[tom@CentOS ~]$ svn co&\index{svn@\svn!checkout@\svnco}& http://svn.server.conm/svn/project_repo --username=tom
 A    project_repo/tags
 A    project_repo/trunk
 A    project_repo/branches
@@ -642,7 +642,7 @@ Checked out revision 2.
 Tom 发现已经有人往仓库中提交了代码, 他很好奇这些代码是谁提交上去的, 于是, 他
 执行下面的命令查看提交历史:
 \begin{svnshell}
-[tom@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
+[tom@CentOS trunk]$ svn log&\index{svn@\svn!log@\svnlog}&
 ------------------------------------------------------------------------
 r2 | jerry | 2016-08-13 13:28:07 +0800 (Sat, 13 Aug 2016) | 1 line
 
@@ -699,7 +699,7 @@ M       array.c
 Tom 编译并运行程序后, 觉得没什么问题, 但是在提交前, 他还想再检查一下代码发生
 了哪些变化:
 \begin{ccode}
-[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 2)
@@ -775,7 +775,7 @@ int main(void)
 编译并简单地测试后, Jerry 准备提交代码, 但是在提交前, 他想要审核一下代码的
 修改:
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 2)
@@ -841,7 +841,7 @@ svn: E170004: Item '/trunk/array.c' is out of date
 这时候 Subversion 会禁止 Jerry 提交修改, 否则的话, 其他人的修改可能会被覆盖
 掉. 为了提交成功, Jerry 必须先更新工作副本:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn update&\index{svn@\svn!\svnup}&
+[jerry@CentOS trunk]$ svn update&\index{svn@\svn!update@\svnup}&
 Updating '.':
 G    trunk/array.c
 Updated to revision 3.
@@ -849,7 +849,7 @@ Updated to revision 3.
 文件名左边的 \texttt{G} 表示该文件被合并了.
 
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 3)
@@ -902,7 +902,7 @@ Index: array.c
 可能会发现输出中的修订号变成了 3, 而在上一次的 \texttt{svn diff} 输出中, 修订
 号是 2. 再查看一下是谁修改了代码:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
+[jerry@CentOS trunk]$ svn log&\index{svn@\svn!log@\svnlog}&
 ------------------------------------------------------------------------
 r3 | tom | 2016-08-13 16:35:55 +0800 (Sat, 13 Aug 2016) | 1 line
 
@@ -953,7 +953,7 @@ array.c:37:15: error: ‘arr’ undeclared (first use in this function)
 
 编译报错了, Jerry 打算撤消 \texttt{array.c} 的修改:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn revert&\index{svn@\svn!\svnrv}& array.c
+[jerry@CentOS trunk]$ svn revert&\index{svn@\svn!revert@\svnrv}& array.c
 Reverted 'array.c'
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 [jerry@CentOS trunk]$
@@ -970,7 +970,7 @@ Reverted 'array.c'
 \begin{svnshell}
 [jerry@CentOS project_repo]$ pwd&\index{pwd@\svnpwd}&
 /home/jerry/project_repo
-[jerry@CentOS project_repo]$ svn revert&\index{svn@\svn!\svnrv}& -R trunk
+[jerry@CentOS project_repo]$ svn revert&\index{svn@\svn!revert@\svnrv}& -R trunk
 \end{svnshell}
 
 到现在为止, 我们已经介绍了如何撤消工作副本中未提交的修改, 但是, 如果修改已经
@@ -981,7 +981,7 @@ Reverted 'array.c'
 假设 Jerry 为 \texttt{array.c} 定义了一个新函数, 用于线性搜索, 审核后, 他提交
 了代码:
 \begin{ccode}
-[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[jerry@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 5)
@@ -1014,7 +1014,7 @@ Committed revision 6.
 
 Jerry 想知道 Tom 向仓库提交了哪些修改:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
+[jerry@CentOS trunk]$ svn log&\index{svn@\svn!log@\svnlog}&
 ------------------------------------------------------------------------
 r5 | tom | 2016-08-14 17:30:06 +0800 (Sun, 14 Aug 2016) | 1 line
 
@@ -1028,10 +1028,10 @@ Add function to accept input and to display contents
 比线性搜索要好得多, 所以他添加的代码就变成多余的了. Jerry 决定撤消他的最后
 一次提交, 也就是把仓库回滚到修订号 5 所处的状态:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!update@\svnup}&
 Updating '.':
 At revision 6.
-[jerry@CentOS trunk]$ svn merge&\index{svn@\svn!\svnmg}& -r 6:5 array.c
+[jerry@CentOS trunk]$ svn merge&\index{svn@\svn!merge@\svnmg}& -r 6:5 array.c
 --- Reverse-merging r6 into 'array.c':
 U    array.c
 --- Recording mergeinfo for reverse merge of r6 into 'array.c':
@@ -1054,7 +1054,7 @@ Tom 决定为项目添加一个 \texttt{README} 文件, 文件包含了一个 \t
 /* TODO: Add contents in README file */
 [tom@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 ?       README
-[tom@CentOS trunk]$ svn add&\index{svn@\svn!\svnadd}& README
+[tom@CentOS trunk]$ svn add&\index{svn@\svn!add@\svnadd}& README
 A         README
 [tom@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Added README file. Will update it's content in future."
 Adding         README
@@ -1099,7 +1099,7 @@ svn: E170004: Item '/trunk/README' is out of date
 
 Subversion 发现 \texttt{README} 已经过时了, 因此 Jerry 得先更新一下工作副本:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!update@\svnup}&
 Updating '.':
 C    README
 Updated to revision 9.
@@ -1111,7 +1111,7 @@ Select: (p) postpone, (df) show diff, (e) edit file, (m) merge,
 在更新 \texttt{README} 时发生了冲突, Subversion 不知道如何处理这种情况, 于是,
 Jerry 输入 \texttt{df}, 查看发生冲突的内容:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
+[jerry@CentOS trunk]$ svn up&\index{svn@\svn!update@\svnup}&
 Updating '.':
 C    README
 Updated to revision 9.
@@ -1199,7 +1199,7 @@ Summary of conflicts:
 虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
 告诉 Subversion 冲突的处理结果:
 \begin{svnshell}
-[jerry@CentOS trunk]$ svn resolve&\index{svn@\svn!\svnrs}& --accept=working README
+[jerry@CentOS trunk]$ svn resolve&\index{svn@\svn!resolve@\svnrs}& --accept=working README
 Resolved conflicted state of 'README'
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
 M       README
@@ -1217,7 +1217,7 @@ Committed revision 10.
 
 Tom 打算为修订号 4 的代码创建一个标签, 这样他就能更方便地访问代码:
 \begin{svnshell}
-[tom@CentOS project_repo]$ svn copy&\index{svn@\svn!\svncp}& -r 4 trunk/ tags/basic_array_operations
+[tom@CentOS project_repo]$ svn copy&\index{svn@\svn!copy@\svncp}& -r 4 trunk/ tags/basic_array_operations
 Updating 'tags/basic_array_operations':
 A    tags/basic_array_operations/array.c
 Updated to revision 4.
@@ -1258,7 +1258,7 @@ Jerry 常常被冲突搞得很不开心, 所以他决定创建一条自己的开
 branches
 tags
 trunk
-[jerry@CentOS project_repo]$ svn copy&\index{svn@\svn!\svncp}& trunk branches/jerry_branche
+[jerry@CentOS project_repo]$ svn copy&\index{svn@\svn!copy@\svncp}& trunk branches/jerry_branche
 A         branches/jerry_branch
 [jerry@CentOS project_repo]$ svn status&\index{svn@\svn!status@\svnst}&
 A  +    branches/jerry_branch
@@ -1350,7 +1350,7 @@ Committed revision 13.
 
 同时, 在主干上, Tom 为 \texttt{array.c} 定义了一个新函数, 用于实现二分查找:
 \begin{ccode}
-[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 14)
@@ -1422,13 +1422,13 @@ Committed revision 15.
 Tom 想知道 Jerry 提交了哪些修改:
 \begin{svnshell}
 [tom@CentOS trunk]$ cd ../branches/
-[tom@CentOS trunk]$ svn up&\index{svn@\svn!\svnup}&
+[tom@CentOS trunk]$ svn up&\index{svn@\svn!update@\svnup}&
 Updating '.':
 A    jerry_branch
 A    jerry_branch/README
 A    jerry_branch/array.c
 Updated to revision 15.
-[tom@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
+[tom@CentOS trunk]$ svn log&\index{svn@\svn!log@\svnlog}&
 ------------------------------------------------------------------------
 r13 | jerry | 2016-08-20 13:01:52 +0800 (Sat, 20 Aug 2016) | 1 line
 
@@ -1440,12 +1440,12 @@ Added sort operation
 \begin{ccode}
 [tom@CentOS trunk]$ pwd`\index{pwd@\svnpwd}`
 /home/dell/Documents/svn/tom_project_repo/trunk
-[tom@CentOS trunk]$ svn merge`\index{svn@\svn!\svnmg}` ../branches/jerry_branch
+[tom@CentOS trunk]$ svn merge`\index{svn@\svn!merge@\svnmg}` ../branches/jerry_branch
 --- Merging r12 through r15 into '.':
 U    array.c
 --- Recording mergeinfo for merge of r12 through r15 into '.':
  U   .
-[tom@CentOS trunk]$ svn diff`\index{svn@\svn!\svndf}`
+[tom@CentOS trunk]$ svn diff`\index{svn@\svn!diff@\svndf}`
 Index: array.c
 ===================================================================
 --- array.c	(revision 15)
