@@ -188,12 +188,12 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 因特网上免费获取. 大部分 GNU/Linux 发行版都默认安装了 Subversion, 可以用下面
 的命令检查:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!--version@\texttt{--version}}&
 \end{svnshell}
 如果系统中已经安装了 Subversion 客户端, 命令就会输出 Subversion 的版本号, 否则
 的话, 就会输出一条错误信息:
 \begin{svnshell}
-[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!--version@\texttt{--version}}&
 /bin/bash: svn: command not found
 \end{svnshell}
 
@@ -206,7 +206,7 @@ Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安�
 Password:
 [jerry@CentOS ~]# yum install subversion&\index{yum@\texttt{yum}!install@\texttt{install}}&
 
-[jerry@CentOS ~]$ svn --version&\index{svn@\svn!\texttt{--version}}&
+[jerry@CentOS ~]$ svn --version&\index{svn@\svn!--version@\texttt{--version}}&
 svn, version 1.6.11 (r934486)
    compiled Aug 17 2015, 08:37:43
 
@@ -234,7 +234,7 @@ The following repository access (RA) modules are available:
 
 [jerry@Ubuntu]$ sudo apt-get install subversion&\index{apt@\texttt{apt}!\texttt{install}}&
 
-[jerry@Ubuntu]$ svn --version&\index{svn@\svn!\texttt{--version}}&
+[jerry@Ubuntu]$ svn --version&\index{svn@\svn!--version@\texttt{--version}}&
 svn, version 1.8.8 (r1568071)
    compiled Aug 20 2015, 12:51:12 on i686-pc-linux-gnu
 
@@ -512,7 +512,8 @@ Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副�
 感到担心, 在大多数情况下, Subversion 管理员知道如何拼写 URL, 而且配置了适当的
 访问权限控制:
 \begin{svnshell}
-[tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://svn.server.com/svn/project_repo --username=tom
+[tom@CentOS ~]$ svn checkout&\index{svn@\svn!\svnco}& http://localhost/svn/project_repo \
+> --username=tom
 A	project_repo/trunk
 A	project_repo/branches
 A	project_repo/tags
@@ -526,16 +527,17 @@ Checked out revision 1.
 /home/tom/project_repo/trunk
 [tom@CentOS trunk]$ svn info&\index{svn@\svn!\svninfo}&
 Path: .
-URL: http://svn.server.com/svn/project_repo/trunk
-Repository Root: http://svn.server.com/svn/project_repo
-Repository UUID: 7ceef8cb-3799-40dd-a067-c216ec2e5247
+Working Copy Root Path: /home/dell/Documents/svn/project_repo
+URL: http://localhost/svn/project_repo
+Relative URL: ^/
+Repository Root: http://localhost/svn/project_repo
+Repository UUID: e869d833-99ed-4274-8aaa-be9403c940e3
 Revision: 1
 Node Kind: directory
 Schedule: normal
-Last Changed Author: jerry
-Last Changed Rev: 0
-Last Changed Date: 2013-08-24 18:15:52 +0530 (Sat, 24 Aug 2013)
-[tom@CentOS trunk]$
+Last Changed Author: user1
+Last Changed Rev: 1
+Last Changed Date: 2016-08-13 13:26:40 +0800 (Sat, 13 Aug 2016)
 \end{svnshell}
 
 \section{执行修改}
@@ -562,7 +564,7 @@ int main(void)
 	for (i = 0; i < n; i++)
 		scanf("%d", &arr[i]);
 
-	printf("Array has folloing elements\n");
+	printf("Array has following elements\n");
 	for (i = 0; i < n; i++)
 		printf("|%d| ", arr[i]);
 
@@ -574,8 +576,7 @@ int main(void)
 
 他想在提交之前先测试一下代码:
 \begin{svnshell}
-[jerry@CentOS trunk]$ make array
-cc	array.c -o array
+[jerry@CentOS trunk]$ gcc array.c -o array
 [jerry@CentOS trunk]$ ./array
 Enter the total number of elements: 5
 Enter the elements
@@ -613,8 +614,8 @@ A       array.c
 表上.
 
 为了把 \texttt{array.c} 更新到仓库中, 需要执行命令 \svnci, 并带上参数
-\texttt{-m}, 这样我们就可以直接在命令行上写提交信息, 如果省略了参数
-\texttt{-m}, subversion 就会自动打开一个文本编辑器, 开发人员也可以在编辑器中
+\texttt{-m}, 该参数允许开发人员直接在命令行上写提交信息, 如果省略了参数
+\texttt{-m}, subversion 就会自动打开一个文本编辑器, 我们也可以在编辑器中
 写提交信息:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Initial commit"
@@ -639,7 +640,7 @@ Checked out revision 2.
 \end{svnshell}
 
 Tom 发现已经有人往仓库中提交了代码, 他很好奇这些代码是谁提交上去的, 于是, 他
-执行下面的命令来查看提交历史:
+执行下面的命令查看提交历史:
 \begin{svnshell}
 [tom@CentOS trunk]$ svn log&\index{svn@\svn!\svnlog}&
 ------------------------------------------------------------------------
@@ -680,7 +681,7 @@ int main(void)
 	for (i = 0; i < n; i++)
 		scanf("%d", &arr[i]);
 
-	printf("Array has folloing elements\n");
+	printf("Array has following elements\n");
 	for (i = 0; i < n; i++)
 		printf("|%d| ", arr[i]);
 
@@ -729,7 +730,7 @@ Committed revision 3.
 \section{更新}
 \label{sec:update_process}
 
-Jerry 曾经提交过 \texttt{array.c} 的第一个版本, 但是他认为应该用两个函数来
+Jerry 曾经提交过 \texttt{array.c} 的第一个版本, 但是他认为应该用两个函数
 分别负责数据输入和数据打印, 于是, \texttt{array.c} 被修改成:
 \begin{ccode}
 #include <stdio.h>
@@ -764,7 +765,7 @@ int main(void)
 	printf("Enter the elements\n");
 	accept_input(arr, n);
 
-	printf("Array has folloing elements\n");
+	printf("Array has following elements\n");
 	display(arr, n);
 
 	return 0;
@@ -813,7 +814,7 @@ Index: array.c
 -	for (i = 0; i < n; i++)
 -		scanf("%d", &arr[i]);
 -
- 	printf("Array has folloing elements\n");
+ 	printf("Array has following elements\n");
 -	for (i = 0; i < n; i++)
 -		printf("|%d| ", arr[i]);
 +	display(arr, n);
@@ -887,7 +888,7 @@ Index: array.c
 -	for (i = 0; i < n; i++)
 -		scanf("%d", &arr[i]);
 -
- 	printf("Array has folloing elements\n");
+ 	printf("Array has following elements\n");
 -	for (i = 0; i < n; i++)
 -		printf("|%d| ", arr[i]);
 +	display(arr, n);
@@ -918,7 +919,7 @@ Create trunk, branches, tags directory structure.
 ------------------------------------------------------------------------
 \end{svnshell}
 
-工作副本更新后, 现在就可以安全地向仓库提交代码了:
+工作副本更新后, 就可以安全地向仓库提交代码:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Add function to accept input and to display array contents"
 Sending        array.c
@@ -931,7 +932,7 @@ Committed revision 4.
 
 假设 Jerry 修改完 \texttt{array.c} 后, 遇到了编译错误, 因此他想要丢弃现在的
 修改, 这时候就需要执行 revert 操作. 操作 revert 可以撤消本地工作副本中文件
-或目录的修改, 除此之外, 它还可以用来解决冲突.
+或目录的修改, 除此之外, 它还可以用于解决冲突.
 
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn status&\index{svn@\svn!status@\svnst}&
@@ -960,7 +961,7 @@ Reverted 'array.c'
 
 再编译一次, 检查还有没有错误:
 \begin{svnshell}
-[jerry@CentOS trunk]$ gcc&\index{gcc@\svngcc}& -o array
+[jerry@CentOS trunk]$ gcc&\index{gcc@\svngcc}& array.c -o array
 [jerry@CentOS trunk]$
 \end{svnshell}
 
@@ -1196,7 +1197,7 @@ Summary of conflicts:
 \label{subsec:resolve_conflicts}
 在上面的提交中, 文件名左边的 \texttt{C} 表示该文件还有冲突未被处理. Jerry
 虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
-来告诉 Subversion 冲突的处理结果:
+告诉 Subversion 冲突的处理结果:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn resolve&\index{svn@\svn!\svnrs}& --accept=working README
 Resolved conflicted state of 'README'
@@ -1223,7 +1224,7 @@ Updated to revision 4.
 A         tags/basic_array_operations
 \end{svnshell}
 
-执行成功后, 在 \texttt{tags} 下就会出现一个新目录:
+执行成功后, 在 \texttt{tags/} 下就会出现一个新目录:
 \begin{svnshell}
 [tom@CentOS project_repo]$ ls&\index{ls@\svnls}& -l tags/
 total 4
@@ -1243,12 +1244,12 @@ Committed revision 11.
 \section{分支}
 \label{sec:branching}
 
-分支用来创建一条新的开发线, 如果开发人员想让开发过程朝着两个不同的方向发展,
+分支用于创建一条新的开发线, 如果开发人员想让开发过程朝着两个不同的方向发展,
 这时候就会用到分支. 比如说, 现在已经发布了版本 1.0, 这时候你可能想创建一条
 新的分支, 用于版本 2.0 的开发, 这样的话, 版本 1.0 的问题修复就不会和 2.0 的
 开发相混淆.
 
-在这一章, 我们将会介绍如何创建, % FIXME: traverse
+这一章介绍如何创建与 % FIXME: traverse
 合并分支.
 
 Jerry 常常被冲突搞得很不开心, 所以他决定创建一条自己的开发分支:
@@ -1326,7 +1327,7 @@ int main(void)
 	printf("Enter the elements\n");
 	accept_input(arr, n);
 
-	printf("Array has folloing elements\n");
+	printf("Array has following elements\n");
 	display(arr, n);
 
 	printf("Sorted data is\n");
@@ -1392,7 +1393,7 @@ Index: array.c
  	printf("Enter the total number of elements: ");
  	scanf("%d", &n);
 @@ -39,5 +60,15 @@
- 	printf("Array has folloing elements\n");
+ 	printf("Array has following elements\n");
  	display(arr, n);
  
 +	printf("Enter the element to be searched: ");
@@ -1474,7 +1475,7 @@ Index: array.c
  {
  	int i;
 @@ -60,6 +77,10 @@
- 	printf("Array has folloing elements\n");
+ 	printf("Array has following elements\n");
  	display(arr, n);
  
 +	printf("Sorted data is\n");
@@ -1567,14 +1568,12 @@ To activate the new configuration, you need to run:
 ~$
 \end{svnshell}
 
-  \item 创建用户及其密码:
+  \item 创建 Subversion 的用户及其密码:
 \begin{svnshell}
 ~$ sudo htpasswd -cm /etc/svnpasswd user1
-svn$ sudo htpasswd -cm /etc/svnpasswd user1
 New password: 
 Re-type new password: 
 Adding password for user user1
-~$
 \end{svnshell}
     再创建一个用户:
 \begin{svnshell}
@@ -1583,17 +1582,15 @@ sudo htpasswd -m /etc/svnpasswd user2
 New password: 
 Re-type new password: 
 Adding password for user user2
-svn$ 
-
 \end{svnshell}
-    在第一次执行 \texttt{htpasswd} 时, 才需要带上参数 \texttt{-m}.
+    在第一次执行 \texttt{htpasswd} 时, 才需要带上参数 \texttt{-c}.
 \end{enumerate}
 
-现在, 你可以在网页上输入 \url{http://127.0.0.1/svn/testrepo} 来访问仓库:
+现在, 就可以在网页上输入 \url{http://127.0.0.1/svn/testrepo} 来访问仓库:
 \begin{center}
     \includegraphics[scale=0.55]{./images/webtestrepo.png}
 \end{center}
-或者用 Subversion 客户端命令来检出工作副本:
+或者用 Subversion 客户端命令检出工作副本:
 \begin{center}
     \includegraphics[scale=0.6]{./images/terminalrepo.png}
 \end{center}
