@@ -133,24 +133,24 @@ VCS 可以分成两大类别:
   \item 分布式的版本控制系统 (Distributed Version Control System, 简称 DVCS).
 \end{itemize}
 
-本教程只讨论 CVCS, 特别是 Subversion, 它使用中央服务器来存
+本教程只讨论 CVCS, 特别是 Subversion, 它使用中央服务器存
 储所有的文件, 并支持团队协作.
 
 \subsection{版本控制术语}
 \label{subsec:version_control_terminologies}
 
-首先先来介绍本教程将会用到的几个术语.
+首先介绍本教程将会用到的几个术语.
 
 \begin{itemize}
   \item 仓库 (Repository): 仓库是所有版本控制系统的
-      核心, 它是开发人员存放所有资料的中心目录. 除了文件, 仓库还会存放历史.
+      核心, 它是开发人员存放所有资料的中央目录. 除了文件, 仓库还会存放修改历史.
       仓库支持网络访问, 相当于一个服务器, 而版本控制工具则是客户端. 客户端可
-      以连接仓库, 然后就可以向仓库提交修改, 或检索修改历史. 通过提交, 其他客
+      以连接仓库, 向仓库提交修改, 或检索修改历史. 通过提交, 其他客
       户端就可以看到某个客户端作出的修改; 通过检查修改历史, 客户端就可以把其
       他人的修改作为工作副本.
 
-  \item 主干 (Trunk): 主干是一个目录, 它是所有主要开发发
-      生的地方, 通常会被开发人员检出, 以便进行项目开发.
+  \item 主干 (Trunk): 主干是一个目录, 它是主要开发工作进行的地方, 通常
+	  会被开发人员检出, 以便进行项目开发.
 
   \item 标签 (Tags): 标签是用于存放项目的命名快照的目录. 通
       过标签, 开发人员可以给仓库的某个特定版本取一个描述性的, 易于记忆的名字.
@@ -159,7 +159,7 @@ VCS 可以分成两大类别:
       \texttt{Repository UUID: 7ceef8cb-3799-40dd-a067-c216ec2e5247} 和
       \texttt{Revision: 13} 容易记忆.
 
-  \item 分支 (Branches): 分支用来创建一条新的开发线. 如
+  \item 分支 (Branches): 分支用于创建一条新的开发线. 如
       果开发人员想要把开发过程分裂成两个方向, 就会用到该功能. 例如, 开发人员
       在发布了 5.0 版本后, 可能会创建一条新的分支, 专门用于开发 6.0 版本,
       这样的话, 6.0 的开发就不会与 5.0 的问题修复相互混淆.
@@ -172,7 +172,7 @@ VCS 可以分成两大类别:
   \item 提交修改 (Commit changes): 把私有工作
       区的修改存放到中央服务器的过程称为提交. 提交后, 团队中的其他人就可以看到
       别人作出的修改, 通过检索修改, 开发人员可以把修改更新到他们的工作副本中.
-      提交是一个原子操作, 要么全部的修改提交成功, 要么全部失败, 不可能出现只
+      提交是一个原子操作, 要么修改全部提交成功, 要么全部失败, 不可能出现只
       提交一半的情况.
 \end{itemize}
 
@@ -197,7 +197,7 @@ Subversion 是一款流行的版本控制工具, 它是开源软件, 可以在
 
 如果读者用的是基于 RPM 的 GNU/Linux 发行版, 可以用命令
 \shellcmd{yum}\index{yum@\texttt{yum}}
-来安装
+安装
 Subversion, 安装完成后, 再执行 \shellcmd{svn --version} 检查是否安装成功:
 \begin{svnshell}
 [jerry@CentOS ~]$ su -
@@ -266,7 +266,7 @@ The following repository access (RA) modules are available:
 [root@CentOS ~]# yum install&\index{yum@\texttt{yum}!install@\texttt{install}}& mod_dav_svn subversion
 \end{svnshell}
 安装了软件包 \texttt{mod\_dav\_svn}\index{mod\_dav\_svn@\texttt{mod\_dav\_svn}} 之后, 用户就
-可以用 HTTP 来访问仓库, 软件包
+可以用 HTTP 访问仓库, 软件包
 \texttt{subversion} 包含了
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具.
 
@@ -434,7 +434,7 @@ Committed revision 1.
 \subsection{更新}
 \label{subsec:update}
 
-顾名思义, 操作 update (更新) 用来更新工作副本, 它把本地的工作副本和服务器上的仓库同
+顾名思义, 操作 update (更新) 用于更新工作副本, 它把本地的工作副本和服务器上的仓库同
 步. 因为仓库是共享的, 所以开发人员会向仓库提交他们的修改, 这时候其他人的工作副
 本就会变成过时了的.
 
@@ -472,7 +472,7 @@ commit (提交) 之前, 最好对修改进行审核.
 未决的修改列表的内容.
 
 操作 status 只会列出发生变化的文件或目录, 但不会显示具体的修改细节. 操作
-diff 用来查看工作副本中的文件内容具体发生了哪些变化.
+diff 用于查看工作副本中的文件内容具体发生了哪些变化.
 
 \subsection{修正错误}
 \label{subsec:fix_mistakes}
@@ -1586,7 +1586,7 @@ Committed revision 16.
     合并负责的是开发人员, 而不是工具, 始终把工具当成一个工具来使用, 而不是
     顾问.
 
-    版本控制工作做完自己能做的工作后, 接下来的事情就必须由开发人员自己来完成:
+    版本控制工作做完自己能做的工作后, 接下来的事情就必须由开发人员自己完成:
     解决每一个冲突, 确保代码仍然可以编译通过, 执行单元测试, 审核代码的变化等.
 
     始终在工作副本中完成分支的合并. 在提交合并结果之前审核代码的变化.
@@ -1688,7 +1688,7 @@ Adding password for user user2
     在第一次执行 \texttt{htpasswd} 时, 才需要带上参数 \texttt{-c}.
 \end{enumerate}
 
-现在, 就可以在网页上输入 \url{http://127.0.0.1/svn/testrepo} 来访问仓库:
+现在, 就可以在网页上输入 \url{http://127.0.0.1/svn/testrepo} 访问仓库:
 \begin{center}
     \includegraphics[scale=0.55]{./images/webtestrepo.png}
 \end{center}
