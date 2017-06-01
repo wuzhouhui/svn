@@ -271,7 +271,7 @@ The following repository access (RA) modules are available:
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 工具.
 
 \texttt{/etc/httpd/conf.d/subversion.conf}\index{subversion.conf@\texttt{subversion.conf}} 是 Subversion
-的配置文件, 该文件的典型内容如下:
+的配置文件, 文件的典型内容如下:
 \begin{svnshell}
 LoadModule dav_svn_module   modules/mod_dav_svn.so
 LoadModule authz_svn_module modules/mod_authz_svn.so
@@ -309,7 +309,7 @@ Re-type new password:
 Adding password for user jerry
 \end{svnshell}
 
-创建 Subversion 父目录, 用于存放所有的工作  (见
+创建 Subversion 父目录, 用于存放所有的仓库 (见
 \texttt{/etc/httpd/conf.d/subversion.conf}\index{subversion.conf@\texttt{subversion.conf}}):
 \begin{svnshell}
 [root@CentOS ~]# mkdir&\index{mkdir@\texttt{mkdir}}& -p /var/www/svn
@@ -320,7 +320,7 @@ Adding password for user jerry
 
 现在创建一个名为 \texttt{project\_repo} 的项目仓库. 命令
 \shellcmd{svnadmin}\index{svnadmin@\svnadmin} 在创建一个新的仓库时, 会在其中
-创建几个子目录, 用于存放元数据:
+创建几个用于存放元数据的子目录:
 \begin{svnshell}
 [root@CentOS svn]# pwd&\index{pwd@\svnpwd}&
 /var/www/svn
@@ -372,7 +372,7 @@ httpd (pid 1372) is running...
 \end{svnshell}
 
 接下来开始配置仓库. 为了实现只有授权的用户才能访问仓库, 并且使用
-默认的授权文件, 就把下面几行添加到
+默认的授权文件, 把下面几行添加到
 \texttt{project\_repo/conf/svnserve.conf}\index{svnserve.conf@\texttt{svnserve.conf}}
 的 \texttt{[general]} 部分:
 \begin{svnshell}
@@ -383,13 +383,13 @@ authz-db = authz
 传统上, 每一个仓库下面都有 \texttt{trunk}, \texttt{tags} 和 \texttt{branches}
 这三个目录.
 
-目录 \texttt{trunk} 是主要开发发生的地方, 通常会被开发
+目录 \texttt{trunk} 是进行主要开发工作的地方, 通常会被开发
 人员检出, 以便进行项目开发.
 
-目录 \texttt{tags} 用于存放项目的命名快照. 当需要发布
+目录 \texttt{tags} 存放项目的命名快照. 当需要发布
 一个产品版本时, 团队就会给代码打一个标签, 然后存放到这个目录中并发布.
 
-目录 \texttt{branches} 用于存放不同的开发线.
+目录 \texttt{branches} 存放不同的开发线.
 
 在仓库中创建 \texttt{trunk}, \texttt{tags}, 和 \texttt{branches}
 这三个目录:
@@ -472,7 +472,7 @@ commit (提交) 之前, 最好对修改进行审核.
 未决的修改列表的内容.
 
 操作 status 只会列出发生变化的文件或目录, 但不会显示具体的修改细节. 操作
-diff 用于查看工作副本中的文件内容具体发生了哪些变化.
+diff (差异比较) 用于查看工作副本中的文件内容具体发生了哪些变化.
 
 \subsection{修正错误}
 \label{subsec:fix_mistakes}
@@ -486,29 +486,29 @@ diff 用于查看工作副本中的文件内容具体发生了哪些变化.
 
 \subsection{解决冲突}
 
-冲突会在合并时发生. 操作 merge (合并) 会自动处理可以安全合并的情况, 除此之外的情况
+冲突会在合并时发生. 操作 merge (合并) 自动处理可以安全合并的情况, 除此之外的情况
 都会被当作冲突. 例如, 文件 \texttt{hello.c} 在一个分支中被修改, 而在另一个
-分支中被删除, 因此在合并这两个分支时开发人员就要作出决定. 操作 resolve 可以
+分支中被删除, 因此在合并这两个分支时开发人员就要作出决定. 操作 resolve (解决)
 帮助开发人员解决冲突, 并通知 VCS 如何处理冲突情况.
 
 \subsection{提交修改}
 \label{subsec:commit_changes}
 
-操作 commit (提交) 把工作副本所发生的变化应用到仓库中. 这个操作会修改仓库中的代码,
+操作 commit (提交) 把工作副本的修改应用到仓库中. 这个操作会修改仓库中的代码,
 其他开发人员可以通过更新来查看新提交的修改.
 
 在提交前, 开发人员要把文件/目录添加到未决的修改列表上, 这是修改等待提交的地
 方. 在提交时, 开发人员通常要写上提交日志, 在日志中解释为什么这次修改是必要
 的, 提交日志会成为仓库历史的一部分. 提交是一种原子操作, 要么全部修改都提交
-上去, 要么一个也没有, 不可能出现只提交一半的修改.
+成功, 要么一个也没有, 不可能出现只提交一半的情况.
 
 \section{检出}
 \label{sec:checkout_process}
 
 Subversion 提供了命令 \texttt{checkout}, 用于从仓库中检出工作副本. 下面的命令
-会在当前目录下创建一个新目录: \texttt{project\_repo}. 不用对命令中仓库的 URL
+会在当前目录下创建一个新目录 \texttt{project\_repo}. 不用对命令中仓库的 URL
 感到担心, 在大多数情况下, Subversion 管理员知道如何拼写 URL, 而且配置了适当的
-访问权限控制:
+访问权限:
 \begin{svnshell}
 [tom@CentOS ~]$ svn checkout&\index{svn@\svn!checkout@\svnco}& http://localhost/svn/project_repo \
 > --username=tom
@@ -518,8 +518,8 @@ A	project_repo/tags
 Checked out revision 1.
 \end{svnshell}
 
-如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息, 可以使用
-命令 \texttt{info}:
+如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息,
+执行 \texttt{svn info}:
 \begin{svnshell}
 [tom@CentOS trunk]$ pwd&\index{pwd@\svnpwd}&
 /home/tom/project_repo/trunk
@@ -613,7 +613,7 @@ A       array.c
 
 为了把 \texttt{array.c} 更新到仓库中, 需要执行命令 \svnci, 并带上参数
 \texttt{-m}, 该参数允许开发人员直接在命令行上写提交信息, 如果省略了参数
-\texttt{-m}, subversion 就会自动打开一个文本编辑器, 我们也可以在编辑器中
+\texttt{-m}, Subversion 就会自动打开一个文本编辑器, 我们也可以在编辑器中
 写提交信息:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn commit&\index{svn@\svn!commit@\svnci}& -m "Initial commit"
@@ -1194,8 +1194,8 @@ Summary of conflicts:
 \subsection{解决冲突}
 \label{subsec:resolve_conflicts}
 在上面的提交中, 文件名左边的 \texttt{C} 表示该文件还有冲突未被处理. Jerry
-虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用相应的命令
-告诉 Subversion 冲突的处理结果:
+虽然已经解决了冲突, 但是 Subversion 并不知道这点, 解决办法是使用命令
+\texttt{svn resolve} 告诉 Subversion 冲突的处理结果:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn resolve&\index{svn@\svn!resolve@\svnrs}& --accept=working README
 Resolved conflicted state of 'README'
@@ -1523,7 +1523,7 @@ Committed revision 16.
         当前正在开发的项目有了更深的理解.
     \end{enumerate}
 
-    \item 让仓库尽量的小
+    \item 让仓库尽量得小
 
     但不能更小.
 
