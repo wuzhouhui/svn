@@ -518,7 +518,7 @@ A	project_repo/tags
 Checked out revision 1.
 \end{svnshell}
 
-如果检出成功, 命令就会打印修订号. 如果用户想要知道关于仓库的更多信息,
+如果检出成功, 命令就会打印版本号. 如果用户想要知道关于仓库的更多信息,
 执行 \texttt{svn info}:
 \begin{svnshell}
 [tom@CentOS trunk]$ pwd&\index{pwd@\svnpwd}&
@@ -621,7 +621,7 @@ Adding		trunk/array.c
 Transmitting file data .
 Committed revision 2.
 \end{svnshell}
-现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 修订号也相应地进行了
+现在, 文件 \texttt{array.c} 就已经成功地添加到了仓库中, 版本号也相应地进行了
 更新.
 
 \section{审核修改}
@@ -897,7 +897,7 @@ Index: array.c
  }
 \end{ccode}
 上面只显示了 Jerry 的修改, 但是这时候 \texttt{array.c} 被合并过了. 细心的读者
-可能会发现输出中的修订号变成了 3, 而在上一次的 \texttt{svn diff} 输出中, 修订
+可能会发现输出中的版本号变成了 3, 而在上一次的 \texttt{svn diff} 输出中, 版本
 号是 2. 再查看一下是谁修改了代码:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn log&\index{svn@\svn!log@\svnlog}&
@@ -1024,7 +1024,7 @@ Add function to accept input and to display contents
 \end{svnshell}
 从日志中, Jerry 意识到他犯了一个严重的错误: Tom 已经实现了一个二分搜索, 它
 比线性搜索要好得多, 所以他添加的代码就变成多余的了. Jerry 决定撤消他的最后
-一次提交, 也就是把仓库回滚到修订号 5 所处的状态:
+一次提交, 也就是把仓库回滚到版本号 5 所处的状态:
 \begin{svnshell}
 [jerry@CentOS trunk]$ svn up&\index{svn@\svn!update@\svnup}&
 Updating '.':
@@ -1046,7 +1046,7 @@ Committed revision 7.
 \label{sec:resolve_conflicts}
 
 Tom 决定为项目添加一个 \texttt{README} 文件, 文件包含了一个 \texttt{TODO}
-列表, 提交后, 仓库的修订号更新到 8:
+列表, 提交后, 仓库的版本号更新到 8:
 \begin{svnshell}
 [tom@CentOS trunk]$ cat&\index{cat@\svncat}& README
 /* TODO: Add contents in README file */
@@ -1211,9 +1211,9 @@ Committed revision 10.
 \label{sec:tags}
 
 版本控制系统支持标签操作, 打标签指的是给代码的某个特定版本取一个有意义的名
-字, 例如, \texttt{BASIC\_ARRAY\_OPERATIONS} 比 修订号 4 更容易记住.
+字, 例如, \texttt{BASIC\_ARRAY\_OPERATIONS} 比 版本号 4 更容易记住.
 
-Tom 打算为修订号 4 的代码创建一个标签, 这样他就能更方便地访问代码:
+Tom 打算为版本号 4 的代码创建一个标签, 这样他就能更方便地访问代码:
 \begin{svnshell}
 [tom@CentOS project_repo]$ svn copy&\index{svn@\svn!copy@\svncp}& -r 4 trunk/ tags/basic_array_operations
 Updating 'tags/basic_array_operations':
